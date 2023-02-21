@@ -3,12 +3,12 @@
 package commentservice
 
 import (
+	comment222 "github.com/Ephmeral/douyin/kitex_gen/comment"
 	server "github.com/cloudwego/kitex/server"
-	comment "github.com/ephmeral/douyin/kitex_gen/comment"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.
-func NewInvoker(handler comment.CommentService, opts ...server.Option) server.Invoker {
+func NewInvoker(handler comment222.CommentService, opts ...server.Option) server.Invoker {
 	var options []server.Option
 
 	options = append(options, opts...)

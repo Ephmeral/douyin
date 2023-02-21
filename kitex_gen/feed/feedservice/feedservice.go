@@ -5,10 +5,10 @@ package feedservice
 import (
 	"context"
 	"fmt"
+	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
-	feed "github.com/ephmeral/douyin/kitex_gen/feed"
 	proto "google.golang.org/protobuf/proto"
 )
 

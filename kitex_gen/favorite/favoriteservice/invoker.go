@@ -3,8 +3,8 @@
 package favoriteservice
 
 import (
+	favorite "github.com/Ephmeral/douyin/kitex_gen/favorite"
 	server "github.com/cloudwego/kitex/server"
-	favorite "github.com/ephmeral/douyin/kitex_gen/favorite"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

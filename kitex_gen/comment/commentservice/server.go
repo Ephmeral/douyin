@@ -2,12 +2,12 @@
 package commentservice
 
 import (
+	comment222 "github.com/Ephmeral/douyin/kitex_gen/comment"
 	server "github.com/cloudwego/kitex/server"
-	comment "github.com/ephmeral/douyin/kitex_gen/comment"
 )
 
 // NewServer creates a server.Server with the given handler and options.
-func NewServer(handler comment.CommentService, opts ...server.Option) server.Server {
+func NewServer(handler comment222.CommentService, opts ...server.Option) server.Server {
 	var options []server.Option
 
 	options = append(options, opts...)

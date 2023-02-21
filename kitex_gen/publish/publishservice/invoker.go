@@ -3,8 +3,8 @@
 package publishservice
 
 import (
+	publish "github.com/Ephmeral/douyin/kitex_gen/publish"
 	server "github.com/cloudwego/kitex/server"
-	publish "github.com/ephmeral/douyin/kitex_gen/publish"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

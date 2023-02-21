@@ -5,10 +5,10 @@ package favoriteservice
 import (
 	"context"
 	"fmt"
+	favorite "github.com/Ephmeral/douyin/kitex_gen/favorite"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
-	favorite "github.com/ephmeral/douyin/kitex_gen/favorite"
 	proto "google.golang.org/protobuf/proto"
 )
 

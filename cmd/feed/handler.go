@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	feed "github.com/ephmeral/douyin/kitex_gen/feed"
+	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 )
 
 // FeedServiceImpl implements the last service interface defined in the IDL.

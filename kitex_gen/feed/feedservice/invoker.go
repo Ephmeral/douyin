@@ -3,8 +3,8 @@
 package feedservice
 
 import (
+	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 	server "github.com/cloudwego/kitex/server"
-	feed "github.com/ephmeral/douyin/kitex_gen/feed"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

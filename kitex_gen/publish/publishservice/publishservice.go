@@ -5,10 +5,10 @@ package publishservice
 import (
 	"context"
 	"fmt"
+	publish "github.com/Ephmeral/douyin/kitex_gen/publish"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
-	publish "github.com/ephmeral/douyin/kitex_gen/publish"
 	proto "google.golang.org/protobuf/proto"
 )
 

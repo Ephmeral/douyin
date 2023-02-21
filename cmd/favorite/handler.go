@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	favorite "github.com/ephmeral/douyin/kitex_gen/favorite"
+	favorite "github.com/Ephmeral/douyin/kitex_gen/favorite"
 )
 
 // FavoriteServiceImpl implements the last service interface defined in the IDL.

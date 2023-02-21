@@ -2,8 +2,8 @@
 package messageservice
 
 import (
+	message "github.com/Ephmeral/douyin/kitex_gen/message"
 	server "github.com/cloudwego/kitex/server"
-	message "github.com/ephmeral/douyin/kitex_gen/message"
 )
 
 // NewServer creates a server.Server with the given handler and options.

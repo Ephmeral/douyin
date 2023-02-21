@@ -5,10 +5,10 @@ package userservice
 import (
 	"context"
 	"fmt"
+	user "github.com/Ephmeral/douyin/kitex_gen/user"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
-	user "github.com/ephmeral/douyin/kitex_gen/user"
 	proto "google.golang.org/protobuf/proto"
 )
 

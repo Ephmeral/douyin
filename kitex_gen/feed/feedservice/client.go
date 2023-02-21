@@ -4,9 +4,9 @@ package feedservice
 
 import (
 	"context"
+	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
-	feed "github.com/ephmeral/douyin/kitex_gen/feed"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.

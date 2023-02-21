@@ -2,8 +2,8 @@
 package feedservice
 
 import (
+	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 	server "github.com/cloudwego/kitex/server"
-	feed "github.com/ephmeral/douyin/kitex_gen/feed"
 )
 
 // NewServer creates a server.Server with the given handler and options.

@@ -3,23 +3,23 @@ package comment;
 option go_package = "comment";
 
 message BaseResp {
-	int32 status_code = 1;//状态码
-	string status_message = 2;//状态描述
-	int64 service_time = 3;//服务时间
+  int32 status_code = 1;//状态码
+  string status_message = 2;//状态描述
+  int64 service_time = 3;//服务时间
 }
 
 message User {
-	int64 id = 1;//用户id
-	string name = 2;//用户名称
-	int64 follow_count = 3;//关注总数
+  int64 id = 1;//用户id
+  string name = 2;//用户名称
+  int64 follow_count = 3;//关注总数
   int64 follower_count = 4;//粉丝总数
   bool is_follow = 5;//true-已关注,false-未关注
-  string avatar = 6; // 用户头像
-  string background_image = 7; // 用户个人页顶部大图
-  string signature = 8; // 个人简介
-  int64 total_favorited = 9; // 获赞数量
-  int64 work_count = 10; // 作品数量
-  int64 favorite_count = 11; // 点赞数量
+  string avatar =6; //用户头像
+  string background_image = 7; //背景图
+  string signature = 8;
+  string total_favorited = 9;
+  int64 work_count = 10;
+  int64 favorite_count = 11;
 }
 
 message Comment {
@@ -28,6 +28,7 @@ message Comment {
   string content = 3;//评论内容
   string create_date = 4;//评论发布日期，格式mm-dd
 }
+
 
 message create_comment_request {
   string token = 1;//用户鉴权token
@@ -51,6 +52,7 @@ message delete_comment_response {
   Comment comment = 2;//评论成功返回评论内容，不需要重新拉取整个列表
 }
 
+
 message comment_list_request {
   string token = 1;//用户鉴权token
   int64 video_id = 2;//视频id
@@ -62,7 +64,7 @@ message comment_list_response {
 }
 
 service CommentService {
-	rpc CreateComment (create_comment_request) returns (create_comment_response) {}
+  rpc CreateComment (create_comment_request) returns (create_comment_response) {}
   rpc DeleteComment (delete_comment_request) returns (delete_comment_response) {}
   rpc CommentList (comment_list_request) returns (comment_list_response) {}
 }

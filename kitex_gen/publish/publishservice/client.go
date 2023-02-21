@@ -4,9 +4,9 @@ package publishservice
 
 import (
 	"context"
+	publish "github.com/Ephmeral/douyin/kitex_gen/publish"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
-	publish "github.com/ephmeral/douyin/kitex_gen/publish"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.

@@ -4,9 +4,9 @@ package favoriteservice
 
 import (
 	"context"
+	favorite "github.com/Ephmeral/douyin/kitex_gen/favorite"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
-	favorite "github.com/ephmeral/douyin/kitex_gen/favorite"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.

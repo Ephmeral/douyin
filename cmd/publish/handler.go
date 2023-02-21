@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	publish "github.com/ephmeral/douyin/kitex_gen/publish"
+	publish "github.com/Ephmeral/douyin/kitex_gen/publish"
 )
 
 // PublishServiceImpl implements the last service interface defined in the IDL.

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	user "github.com/ephmeral/douyin/kitex_gen/user"
+	user "github.com/Ephmeral/douyin/kitex_gen/user"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
