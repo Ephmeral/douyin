@@ -44,6 +44,8 @@ const (
 	//relation actiontypr,1是关注，2是取消关注
 	Follow   = 1
 	UnFollow = 2
+	//message action type, 1发送消息
+	Send = 1
 
 	//rpc服务名
 	ApiServiceName      = "api"
