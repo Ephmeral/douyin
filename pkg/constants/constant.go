@@ -45,7 +45,7 @@ const (
 	Follow   = 1
 	UnFollow = 2
 	//message action type, 1发送消息
-	Send = 1
+	SendMessage = 1
 
 	//rpc服务名
 	ApiServiceName      = "api"

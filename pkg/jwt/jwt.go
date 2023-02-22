@@ -17,7 +17,7 @@ var (
 	ErrTokenInvalid     = errno.WithCode(errno.TokenInvalidErrCode, "Couldn't handle this token")
 )
 
-//Structured version of Claims Section, as referenced at https://tools.ietf.org/html/rfc7519#section-4.1 See examples for how to use this with your own claim types
+// CustomClaims Structured version of Claims Section, as referenced at https://tools.ietf.org/html/rfc7519#section-4.1 See examples for how to use this with your own claim types
 type CustomClaims struct {
 	Id          int64
 	AuthorityId int64
@@ -30,13 +30,13 @@ func NewJWT(SigningKey []byte) *JWT {
 	}
 }
 
-//CreateToken create a new token
+// CreateToken create a new token
 func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.SigningKey)
 }
 
-//ParseToken parses the token
+// ParseToken parses the token
 func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(t *jwt.Token) (interface{}, error) {
 		return j.SigningKey, nil
@@ -60,7 +60,7 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 	return nil, ErrTokenInvalid
 }
 
-//checkToken get userId by token
+// CheckToken get userId by token
 func (j *JWT) CheckToken(token string) (int64, error) {
 	if token == "" {
 		return -1, nil
