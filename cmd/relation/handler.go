@@ -16,16 +16,16 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 	resp = new(relation.RelationActionResponse)
 
 	if len(req.Token) == 0 || req.ToUserId == 0 || req.ActionType == 0 {
-		resp.BaseResp = pack.BuilRelationBaseResp(errno.ParamErr)
+		resp.BaseResp = pack.BuildRelationBaseResp(errno.ParamErr)
 		return resp, nil
 	}
 
 	err = service.NewRelationActionService(ctx).RelationAction(req)
 	if err != nil {
-		resp.BaseResp = pack.BuilRelationBaseResp(err)
+		resp.BaseResp = pack.BuildRelationBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuilRelationBaseResp(errno.Success)
+	resp.BaseResp = pack.BuildRelationBaseResp(errno.Success)
 	return resp, nil
 }
 
@@ -34,16 +34,16 @@ func (s *RelationServiceImpl) FollowList(ctx context.Context, req *relation.Foll
 	resp = new(relation.FollowListResponse)
 
 	if req.UserId == 0 {
-		resp.BaseResp = pack.BuilRelationBaseResp(errno.ParamErr)
+		resp.BaseResp = pack.BuildRelationBaseResp(errno.ParamErr)
 		return resp, nil
 	}
 
 	userList, err := service.NewFollowListService(ctx).FollowList(req)
 	if err != nil {
-		resp.BaseResp = pack.BuilRelationBaseResp(err)
+		resp.BaseResp = pack.BuildRelationBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuilRelationBaseResp(errno.Success)
+	resp.BaseResp = pack.BuildRelationBaseResp(errno.Success)
 	resp.UserList = userList
 	return resp, nil
 }
@@ -53,16 +53,16 @@ func (s *RelationServiceImpl) FollowerList(ctx context.Context, req *relation.Fo
 	resp = new(relation.FollowerListResponse)
 
 	if req.UserId == 0 {
-		resp.BaseResp = pack.BuilRelationBaseResp(errno.ParamErr)
+		resp.BaseResp = pack.BuildRelationBaseResp(errno.ParamErr)
 		return resp, nil
 	}
 
 	userList, err := service.NewFollowerListService(ctx).FollowerList(req)
 	if err != nil {
-		resp.BaseResp = pack.BuilRelationBaseResp(err)
+		resp.BaseResp = pack.BuildRelationBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuilRelationBaseResp(errno.Success)
+	resp.BaseResp = pack.BuildRelationBaseResp(errno.Success)
 	resp.UserList = userList
 	return resp, nil
 }
@@ -72,16 +72,16 @@ func (s *RelationServiceImpl) FriendList(ctx context.Context, req *relation.Frie
 	resp = new(relation.FriendListResponse)
 
 	if req.UserId == 0 {
-		resp.BaseResp = pack.BuilRelationBaseResp(errno.ParamErr)
+		resp.BaseResp = pack.BuildRelationBaseResp(errno.ParamErr)
 		return resp, nil
 	}
 
 	userList, err := service.NewFriendListService(ctx).FriendList(req)
 	if err != nil {
-		resp.BaseResp = pack.BuilRelationBaseResp(err)
+		resp.BaseResp = pack.BuildRelationBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuilRelationBaseResp(errno.Success)
+	resp.BaseResp = pack.BuildRelationBaseResp(errno.Success)
 	resp.UserList = userList
 	return resp, nil
 }

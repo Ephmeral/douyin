@@ -20,7 +20,10 @@ func NewFriendListService(ctx context.Context) *FriendListService {
 
 func (s *FriendListService) FriendList(req *relation.FriendListRequest) ([]*relation.FriendUser, error) {
 	Jwt := jwt.NewJWT([]byte(constants.SecretKey))
-	currentId, _ := Jwt.CheckToken(req.Token)
+	currentId, err := Jwt.CheckToken(req.Token)
+	if err != nil {
+		return nil, err
+	}
 
 	// 检查请求的用户是否存在
 	user, err := db.QueryUserByIds(s.ctx, []int64{req.UserId})
@@ -36,8 +39,6 @@ func (s *FriendListService) FriendList(req *relation.FriendListRequest) ([]*rela
 	if err != nil {
 		return nil, err
 	}
-
-	// 获取好友id
 
 	// 获取好友的信息
 	users, err := db.QueryUserByIds(s.ctx, userIds)

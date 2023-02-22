@@ -20,11 +20,14 @@ func NewFollowerListService(ctx context.Context) *FollowerListService {
 	return &FollowerListService{ctx: ctx}
 }
 
-// FollowerList get user follower list info
+// FollowerList 查询用户粉丝列表
 func (s *FollowerListService) FollowerList(req *relation.FollowerListRequest) ([]*relation.User, error) {
 	Jwt := jwt.NewJWT([]byte(constants.SecretKey))
-	currentId, _ := Jwt.CheckToken(req.Token)
-
+	currentId, err := Jwt.CheckToken(req.Token)
+	if err != nil {
+		return nil, err
+	}
+	// 检查请求的用户是否存在
 	user, err := db.QueryUserByIds(s.ctx, []int64{req.UserId})
 	if err != nil {
 		return nil, err

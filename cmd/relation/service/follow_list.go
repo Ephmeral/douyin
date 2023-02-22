@@ -20,10 +20,13 @@ func NewFollowListService(ctx context.Context) *FollowListService {
 	return &FollowListService{ctx: ctx}
 }
 
-// FollowList get user follow list info
+// FollowList 查询用户关注列表
 func (s *FollowListService) FollowList(req *relation.FollowListRequest) ([]*relation.User, error) {
 	Jwt := jwt.NewJWT([]byte(constants.SecretKey))
-	currentId, _ := Jwt.CheckToken(req.Token)
+	currentId, err := Jwt.CheckToken(req.Token)
+	if err != nil {
+		return nil, err
+	}
 
 	user, err := db.QueryUserByIds(s.ctx, []int64{req.UserId})
 	if err != nil {
