@@ -33,7 +33,7 @@ func feedbaseResp(err errno.ErrNo) *feed.BaseResp {
 	return &feed.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildPublishBaseResp build publish baseResp from error
+// BuildPublishBaseResp build publish baseResp from error
 func BuildPublishBaseResp(err error) *publish.BaseResp {
 	if err == nil {
 		return publishbaseResp(errno.Success)
@@ -52,7 +52,7 @@ func publishbaseResp(err errno.ErrNo) *publish.BaseResp {
 	return &publish.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildUserBaseResp build user baseResp from error
+// BuildUserBaseResp build user baseResp from error
 func BuildUserBaseResp(err error) *user.BaseResp {
 	if err == nil {
 		return userbaseResp(errno.Success)
@@ -71,7 +71,7 @@ func userbaseResp(err errno.ErrNo) *user.BaseResp {
 	return &user.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildFavoriteBaseResp build favorite baseResp from error
+// BuildFavoriteBaseResp build favorite baseResp from error
 func BuildFavoriteBaseResp(err error) *favorite.BaseResp {
 	if err == nil {
 		return favoritebaseResp(errno.Success)
@@ -90,8 +90,8 @@ func favoritebaseResp(err errno.ErrNo) *favorite.BaseResp {
 	return &favorite.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildCommentBaseResp build comment baseResp from error
-func BuilCommentBaseResp(err error) *comment.BaseResp {
+// BuildCommentBaseResp build comment baseResp from error
+func BuildCommentBaseResp(err error) *comment.BaseResp {
 	if err == nil {
 		return commentbaseResp(errno.Success)
 	}
@@ -109,8 +109,8 @@ func commentbaseResp(err errno.ErrNo) *comment.BaseResp {
 	return &comment.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildRelationBaseResp build relation baseResp from error
-func BuilRelationBaseResp(err error) *relation.BaseResp {
+// BuildRelationBaseResp build relation baseResp from error
+func BuildRelationBaseResp(err error) *relation.BaseResp {
 	if err == nil {
 		return relationbaseResp(errno.Success)
 	}
@@ -128,7 +128,7 @@ func relationbaseResp(err errno.ErrNo) *relation.BaseResp {
 	return &relation.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
 }
 
-//BuildMessageBaseResp build message baseResp from error
+// BuildMessageBaseResp build message baseResp from error
 func BuildMessageBaseResp(err error) *message.BaseResp {
 	if err == nil {
 		return messagebaseResp(errno.Success)

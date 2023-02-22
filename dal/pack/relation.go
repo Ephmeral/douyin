@@ -8,7 +8,7 @@ import (
 func UserList(currentId int64, users []*db.UserRaw, relationMap map[int64]*db.RelationRaw) []*relation.User {
 	userList := make([]*relation.User, 0)
 	for _, user := range users {
-		var isFollow bool = false
+		var isFollow = false
 
 		if currentId != -1 {
 			_, ok := relationMap[int64(user.ID)]
