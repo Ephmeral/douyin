@@ -23,7 +23,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	handlerType := (*message.MessageService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"MessageAction": kitex.NewMethodInfo(messageActionHandler, newMessageActionArgs, newMessageActionResult, false),
-		"MessageList":   kitex.NewMethodInfo(messageListHandler, newMessageListArgs, newMessageListResult, false),
+		"MessageChat":   kitex.NewMethodInfo(messageChatHandler, newMessageChatArgs, newMessageChatResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "message",
@@ -184,73 +184,73 @@ func (p *MessageActionResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
-func messageListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+func messageChatHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(message.MessageListRequest)
+		req := new(message.MessageChatRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(message.MessageService).MessageList(ctx, req)
+		resp, err := handler.(message.MessageService).MessageChat(ctx, req)
 		if err != nil {
 			return err
 		}
 		if err := st.SendMsg(resp); err != nil {
 			return err
 		}
-	case *MessageListArgs:
-		success, err := handler.(message.MessageService).MessageList(ctx, s.Req)
+	case *MessageChatArgs:
+		success, err := handler.(message.MessageService).MessageChat(ctx, s.Req)
 		if err != nil {
 			return err
 		}
-		realResult := result.(*MessageListResult)
+		realResult := result.(*MessageChatResult)
 		realResult.Success = success
 	}
 	return nil
 }
-func newMessageListArgs() interface{} {
-	return &MessageListArgs{}
+func newMessageChatArgs() interface{} {
+	return &MessageChatArgs{}
 }
 
-func newMessageListResult() interface{} {
-	return &MessageListResult{}
+func newMessageChatResult() interface{} {
+	return &MessageChatResult{}
 }
 
-type MessageListArgs struct {
-	Req *message.MessageListRequest
+type MessageChatArgs struct {
+	Req *message.MessageChatRequest
 }
 
-func (p *MessageListArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+func (p *MessageChatArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetReq() {
-		p.Req = new(message.MessageListRequest)
+		p.Req = new(message.MessageChatRequest)
 	}
 	return p.Req.FastRead(buf, _type, number)
 }
 
-func (p *MessageListArgs) FastWrite(buf []byte) (n int) {
+func (p *MessageChatArgs) FastWrite(buf []byte) (n int) {
 	if !p.IsSetReq() {
 		return 0
 	}
 	return p.Req.FastWrite(buf)
 }
 
-func (p *MessageListArgs) Size() (n int) {
+func (p *MessageChatArgs) Size() (n int) {
 	if !p.IsSetReq() {
 		return 0
 	}
 	return p.Req.Size()
 }
 
-func (p *MessageListArgs) Marshal(out []byte) ([]byte, error) {
+func (p *MessageChatArgs) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetReq() {
-		return out, fmt.Errorf("No req in MessageListArgs")
+		return out, fmt.Errorf("No req in MessageChatArgs")
 	}
 	return proto.Marshal(p.Req)
 }
 
-func (p *MessageListArgs) Unmarshal(in []byte) error {
-	msg := new(message.MessageListRequest)
+func (p *MessageChatArgs) Unmarshal(in []byte) error {
+	msg := new(message.MessageChatRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -258,55 +258,55 @@ func (p *MessageListArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var MessageListArgs_Req_DEFAULT *message.MessageListRequest
+var MessageChatArgs_Req_DEFAULT *message.MessageChatRequest
 
-func (p *MessageListArgs) GetReq() *message.MessageListRequest {
+func (p *MessageChatArgs) GetReq() *message.MessageChatRequest {
 	if !p.IsSetReq() {
-		return MessageListArgs_Req_DEFAULT
+		return MessageChatArgs_Req_DEFAULT
 	}
 	return p.Req
 }
 
-func (p *MessageListArgs) IsSetReq() bool {
+func (p *MessageChatArgs) IsSetReq() bool {
 	return p.Req != nil
 }
 
-type MessageListResult struct {
-	Success *message.MessageListResponse
+type MessageChatResult struct {
+	Success *message.MessageChatResponse
 }
 
-var MessageListResult_Success_DEFAULT *message.MessageListResponse
+var MessageChatResult_Success_DEFAULT *message.MessageChatResponse
 
-func (p *MessageListResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+func (p *MessageChatResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetSuccess() {
-		p.Success = new(message.MessageListResponse)
+		p.Success = new(message.MessageChatResponse)
 	}
 	return p.Success.FastRead(buf, _type, number)
 }
 
-func (p *MessageListResult) FastWrite(buf []byte) (n int) {
+func (p *MessageChatResult) FastWrite(buf []byte) (n int) {
 	if !p.IsSetSuccess() {
 		return 0
 	}
 	return p.Success.FastWrite(buf)
 }
 
-func (p *MessageListResult) Size() (n int) {
+func (p *MessageChatResult) Size() (n int) {
 	if !p.IsSetSuccess() {
 		return 0
 	}
 	return p.Success.Size()
 }
 
-func (p *MessageListResult) Marshal(out []byte) ([]byte, error) {
+func (p *MessageChatResult) Marshal(out []byte) ([]byte, error) {
 	if !p.IsSetSuccess() {
-		return out, fmt.Errorf("No req in MessageListResult")
+		return out, fmt.Errorf("No req in MessageChatResult")
 	}
 	return proto.Marshal(p.Success)
 }
 
-func (p *MessageListResult) Unmarshal(in []byte) error {
-	msg := new(message.MessageListResponse)
+func (p *MessageChatResult) Unmarshal(in []byte) error {
+	msg := new(message.MessageChatResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -314,18 +314,18 @@ func (p *MessageListResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *MessageListResult) GetSuccess() *message.MessageListResponse {
+func (p *MessageChatResult) GetSuccess() *message.MessageChatResponse {
 	if !p.IsSetSuccess() {
-		return MessageListResult_Success_DEFAULT
+		return MessageChatResult_Success_DEFAULT
 	}
 	return p.Success
 }
 
-func (p *MessageListResult) SetSuccess(x interface{}) {
-	p.Success = x.(*message.MessageListResponse)
+func (p *MessageChatResult) SetSuccess(x interface{}) {
+	p.Success = x.(*message.MessageChatResponse)
 }
 
-func (p *MessageListResult) IsSetSuccess() bool {
+func (p *MessageChatResult) IsSetSuccess() bool {
 	return p.Success != nil
 }
 
@@ -349,11 +349,11 @@ func (p *kClient) MessageAction(ctx context.Context, Req *message.MessageActionR
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) MessageList(ctx context.Context, Req *message.MessageListRequest) (r *message.MessageListResponse, err error) {
-	var _args MessageListArgs
+func (p *kClient) MessageChat(ctx context.Context, Req *message.MessageChatRequest) (r *message.MessageChatResponse, err error) {
+	var _args MessageChatArgs
 	_args.Req = Req
-	var _result MessageListResult
-	if err = p.c.Call(ctx, "MessageList", &_args, &_result); err != nil {
+	var _result MessageChatResult
+	if err = p.c.Call(ctx, "MessageChat", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

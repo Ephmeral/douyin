@@ -12,7 +12,7 @@ import (
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
 	MessageAction(ctx context.Context, Req *message.MessageActionRequest, callOptions ...callopt.Option) (r *message.MessageActionResponse, err error)
-	MessageList(ctx context.Context, Req *message.MessageListRequest, callOptions ...callopt.Option) (r *message.MessageListResponse, err error)
+	MessageChat(ctx context.Context, Req *message.MessageChatRequest, callOptions ...callopt.Option) (r *message.MessageChatResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -49,7 +49,7 @@ func (p *kMessageServiceClient) MessageAction(ctx context.Context, Req *message.
 	return p.kClient.MessageAction(ctx, Req)
 }
 
-func (p *kMessageServiceClient) MessageList(ctx context.Context, Req *message.MessageListRequest, callOptions ...callopt.Option) (r *message.MessageListResponse, err error) {
+func (p *kMessageServiceClient) MessageChat(ctx context.Context, Req *message.MessageChatRequest, callOptions ...callopt.Option) (r *message.MessageChatResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.MessageList(ctx, Req)
+	return p.kClient.MessageChat(ctx, Req)
 }

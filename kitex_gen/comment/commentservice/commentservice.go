@@ -5,7 +5,7 @@ package commentservice
 import (
 	"context"
 	"fmt"
-	comment222 "github.com/Ephmeral/douyin/kitex_gen/comment"
+	comment "github.com/Ephmeral/douyin/kitex_gen/comment"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
@@ -20,7 +20,7 @@ var commentServiceServiceInfo = NewServiceInfo()
 
 func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "CommentService"
-	handlerType := (*comment222.CommentService)(nil)
+	handlerType := (*comment.CommentService)(nil)
 	methods := map[string]kitex.MethodInfo{
 		"CreateComment": kitex.NewMethodInfo(createCommentHandler, newCreateCommentArgs, newCreateCommentResult, false),
 		"DeleteComment": kitex.NewMethodInfo(deleteCommentHandler, newDeleteCommentArgs, newDeleteCommentResult, false),
@@ -44,11 +44,11 @@ func createCommentHandler(ctx context.Context, handler interface{}, arg, result 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(comment222.CreateCommentRequest)
+		req := new(comment.CreateCommentRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(comment222.CommentService).CreateComment(ctx, req)
+		resp, err := handler.(comment.CommentService).CreateComment(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -56,7 +56,7 @@ func createCommentHandler(ctx context.Context, handler interface{}, arg, result 
 			return err
 		}
 	case *CreateCommentArgs:
-		success, err := handler.(comment222.CommentService).CreateComment(ctx, s.Req)
+		success, err := handler.(comment.CommentService).CreateComment(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -74,12 +74,12 @@ func newCreateCommentResult() interface{} {
 }
 
 type CreateCommentArgs struct {
-	Req *comment222.CreateCommentRequest
+	Req *comment.CreateCommentRequest
 }
 
 func (p *CreateCommentArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetReq() {
-		p.Req = new(comment222.CreateCommentRequest)
+		p.Req = new(comment.CreateCommentRequest)
 	}
 	return p.Req.FastRead(buf, _type, number)
 }
@@ -106,7 +106,7 @@ func (p *CreateCommentArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateCommentArgs) Unmarshal(in []byte) error {
-	msg := new(comment222.CreateCommentRequest)
+	msg := new(comment.CreateCommentRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -114,9 +114,9 @@ func (p *CreateCommentArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CreateCommentArgs_Req_DEFAULT *comment222.CreateCommentRequest
+var CreateCommentArgs_Req_DEFAULT *comment.CreateCommentRequest
 
-func (p *CreateCommentArgs) GetReq() *comment222.CreateCommentRequest {
+func (p *CreateCommentArgs) GetReq() *comment.CreateCommentRequest {
 	if !p.IsSetReq() {
 		return CreateCommentArgs_Req_DEFAULT
 	}
@@ -128,14 +128,14 @@ func (p *CreateCommentArgs) IsSetReq() bool {
 }
 
 type CreateCommentResult struct {
-	Success *comment222.CreateCommentResponse
+	Success *comment.CreateCommentResponse
 }
 
-var CreateCommentResult_Success_DEFAULT *comment222.CreateCommentResponse
+var CreateCommentResult_Success_DEFAULT *comment.CreateCommentResponse
 
 func (p *CreateCommentResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetSuccess() {
-		p.Success = new(comment222.CreateCommentResponse)
+		p.Success = new(comment.CreateCommentResponse)
 	}
 	return p.Success.FastRead(buf, _type, number)
 }
@@ -162,7 +162,7 @@ func (p *CreateCommentResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CreateCommentResult) Unmarshal(in []byte) error {
-	msg := new(comment222.CreateCommentResponse)
+	msg := new(comment.CreateCommentResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -170,7 +170,7 @@ func (p *CreateCommentResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CreateCommentResult) GetSuccess() *comment222.CreateCommentResponse {
+func (p *CreateCommentResult) GetSuccess() *comment.CreateCommentResponse {
 	if !p.IsSetSuccess() {
 		return CreateCommentResult_Success_DEFAULT
 	}
@@ -178,7 +178,7 @@ func (p *CreateCommentResult) GetSuccess() *comment222.CreateCommentResponse {
 }
 
 func (p *CreateCommentResult) SetSuccess(x interface{}) {
-	p.Success = x.(*comment222.CreateCommentResponse)
+	p.Success = x.(*comment.CreateCommentResponse)
 }
 
 func (p *CreateCommentResult) IsSetSuccess() bool {
@@ -189,11 +189,11 @@ func deleteCommentHandler(ctx context.Context, handler interface{}, arg, result 
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(comment222.DeleteCommentRequest)
+		req := new(comment.DeleteCommentRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(comment222.CommentService).DeleteComment(ctx, req)
+		resp, err := handler.(comment.CommentService).DeleteComment(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -201,7 +201,7 @@ func deleteCommentHandler(ctx context.Context, handler interface{}, arg, result 
 			return err
 		}
 	case *DeleteCommentArgs:
-		success, err := handler.(comment222.CommentService).DeleteComment(ctx, s.Req)
+		success, err := handler.(comment.CommentService).DeleteComment(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -219,12 +219,12 @@ func newDeleteCommentResult() interface{} {
 }
 
 type DeleteCommentArgs struct {
-	Req *comment222.DeleteCommentRequest
+	Req *comment.DeleteCommentRequest
 }
 
 func (p *DeleteCommentArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetReq() {
-		p.Req = new(comment222.DeleteCommentRequest)
+		p.Req = new(comment.DeleteCommentRequest)
 	}
 	return p.Req.FastRead(buf, _type, number)
 }
@@ -251,7 +251,7 @@ func (p *DeleteCommentArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DeleteCommentArgs) Unmarshal(in []byte) error {
-	msg := new(comment222.DeleteCommentRequest)
+	msg := new(comment.DeleteCommentRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -259,9 +259,9 @@ func (p *DeleteCommentArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var DeleteCommentArgs_Req_DEFAULT *comment222.DeleteCommentRequest
+var DeleteCommentArgs_Req_DEFAULT *comment.DeleteCommentRequest
 
-func (p *DeleteCommentArgs) GetReq() *comment222.DeleteCommentRequest {
+func (p *DeleteCommentArgs) GetReq() *comment.DeleteCommentRequest {
 	if !p.IsSetReq() {
 		return DeleteCommentArgs_Req_DEFAULT
 	}
@@ -273,14 +273,14 @@ func (p *DeleteCommentArgs) IsSetReq() bool {
 }
 
 type DeleteCommentResult struct {
-	Success *comment222.DeleteCommentResponse
+	Success *comment.DeleteCommentResponse
 }
 
-var DeleteCommentResult_Success_DEFAULT *comment222.DeleteCommentResponse
+var DeleteCommentResult_Success_DEFAULT *comment.DeleteCommentResponse
 
 func (p *DeleteCommentResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetSuccess() {
-		p.Success = new(comment222.DeleteCommentResponse)
+		p.Success = new(comment.DeleteCommentResponse)
 	}
 	return p.Success.FastRead(buf, _type, number)
 }
@@ -307,7 +307,7 @@ func (p *DeleteCommentResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *DeleteCommentResult) Unmarshal(in []byte) error {
-	msg := new(comment222.DeleteCommentResponse)
+	msg := new(comment.DeleteCommentResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -315,7 +315,7 @@ func (p *DeleteCommentResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *DeleteCommentResult) GetSuccess() *comment222.DeleteCommentResponse {
+func (p *DeleteCommentResult) GetSuccess() *comment.DeleteCommentResponse {
 	if !p.IsSetSuccess() {
 		return DeleteCommentResult_Success_DEFAULT
 	}
@@ -323,7 +323,7 @@ func (p *DeleteCommentResult) GetSuccess() *comment222.DeleteCommentResponse {
 }
 
 func (p *DeleteCommentResult) SetSuccess(x interface{}) {
-	p.Success = x.(*comment222.DeleteCommentResponse)
+	p.Success = x.(*comment.DeleteCommentResponse)
 }
 
 func (p *DeleteCommentResult) IsSetSuccess() bool {
@@ -334,11 +334,11 @@ func commentListHandler(ctx context.Context, handler interface{}, arg, result in
 	switch s := arg.(type) {
 	case *streaming.Args:
 		st := s.Stream
-		req := new(comment222.CommentListRequest)
+		req := new(comment.CommentListRequest)
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(comment222.CommentService).CommentList(ctx, req)
+		resp, err := handler.(comment.CommentService).CommentList(ctx, req)
 		if err != nil {
 			return err
 		}
@@ -346,7 +346,7 @@ func commentListHandler(ctx context.Context, handler interface{}, arg, result in
 			return err
 		}
 	case *CommentListArgs:
-		success, err := handler.(comment222.CommentService).CommentList(ctx, s.Req)
+		success, err := handler.(comment.CommentService).CommentList(ctx, s.Req)
 		if err != nil {
 			return err
 		}
@@ -364,12 +364,12 @@ func newCommentListResult() interface{} {
 }
 
 type CommentListArgs struct {
-	Req *comment222.CommentListRequest
+	Req *comment.CommentListRequest
 }
 
 func (p *CommentListArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetReq() {
-		p.Req = new(comment222.CommentListRequest)
+		p.Req = new(comment.CommentListRequest)
 	}
 	return p.Req.FastRead(buf, _type, number)
 }
@@ -396,7 +396,7 @@ func (p *CommentListArgs) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CommentListArgs) Unmarshal(in []byte) error {
-	msg := new(comment222.CommentListRequest)
+	msg := new(comment.CommentListRequest)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -404,9 +404,9 @@ func (p *CommentListArgs) Unmarshal(in []byte) error {
 	return nil
 }
 
-var CommentListArgs_Req_DEFAULT *comment222.CommentListRequest
+var CommentListArgs_Req_DEFAULT *comment.CommentListRequest
 
-func (p *CommentListArgs) GetReq() *comment222.CommentListRequest {
+func (p *CommentListArgs) GetReq() *comment.CommentListRequest {
 	if !p.IsSetReq() {
 		return CommentListArgs_Req_DEFAULT
 	}
@@ -418,14 +418,14 @@ func (p *CommentListArgs) IsSetReq() bool {
 }
 
 type CommentListResult struct {
-	Success *comment222.CommentListResponse
+	Success *comment.CommentListResponse
 }
 
-var CommentListResult_Success_DEFAULT *comment222.CommentListResponse
+var CommentListResult_Success_DEFAULT *comment.CommentListResponse
 
 func (p *CommentListResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
 	if !p.IsSetSuccess() {
-		p.Success = new(comment222.CommentListResponse)
+		p.Success = new(comment.CommentListResponse)
 	}
 	return p.Success.FastRead(buf, _type, number)
 }
@@ -452,7 +452,7 @@ func (p *CommentListResult) Marshal(out []byte) ([]byte, error) {
 }
 
 func (p *CommentListResult) Unmarshal(in []byte) error {
-	msg := new(comment222.CommentListResponse)
+	msg := new(comment.CommentListResponse)
 	if err := proto.Unmarshal(in, msg); err != nil {
 		return err
 	}
@@ -460,7 +460,7 @@ func (p *CommentListResult) Unmarshal(in []byte) error {
 	return nil
 }
 
-func (p *CommentListResult) GetSuccess() *comment222.CommentListResponse {
+func (p *CommentListResult) GetSuccess() *comment.CommentListResponse {
 	if !p.IsSetSuccess() {
 		return CommentListResult_Success_DEFAULT
 	}
@@ -468,7 +468,7 @@ func (p *CommentListResult) GetSuccess() *comment222.CommentListResponse {
 }
 
 func (p *CommentListResult) SetSuccess(x interface{}) {
-	p.Success = x.(*comment222.CommentListResponse)
+	p.Success = x.(*comment.CommentListResponse)
 }
 
 func (p *CommentListResult) IsSetSuccess() bool {
@@ -485,7 +485,7 @@ func newServiceClient(c client.Client) *kClient {
 	}
 }
 
-func (p *kClient) CreateComment(ctx context.Context, Req *comment222.CreateCommentRequest) (r *comment222.CreateCommentResponse, err error) {
+func (p *kClient) CreateComment(ctx context.Context, Req *comment.CreateCommentRequest) (r *comment.CreateCommentResponse, err error) {
 	var _args CreateCommentArgs
 	_args.Req = Req
 	var _result CreateCommentResult
@@ -495,7 +495,7 @@ func (p *kClient) CreateComment(ctx context.Context, Req *comment222.CreateComme
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) DeleteComment(ctx context.Context, Req *comment222.DeleteCommentRequest) (r *comment222.DeleteCommentResponse, err error) {
+func (p *kClient) DeleteComment(ctx context.Context, Req *comment.DeleteCommentRequest) (r *comment.DeleteCommentResponse, err error) {
 	var _args DeleteCommentArgs
 	_args.Req = Req
 	var _result DeleteCommentResult
@@ -505,7 +505,7 @@ func (p *kClient) DeleteComment(ctx context.Context, Req *comment222.DeleteComme
 	return _result.GetSuccess(), nil
 }
 
-func (p *kClient) CommentList(ctx context.Context, Req *comment222.CommentListRequest) (r *comment222.CommentListResponse, err error) {
+func (p *kClient) CommentList(ctx context.Context, Req *comment.CommentListRequest) (r *comment.CommentListResponse, err error) {
 	var _args CommentListArgs
 	_args.Req = Req
 	var _result CommentListResult

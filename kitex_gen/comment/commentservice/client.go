@@ -4,16 +4,16 @@ package commentservice
 
 import (
 	"context"
-	comment222 "github.com/Ephmeral/douyin/kitex_gen/comment"
+	comment "github.com/Ephmeral/douyin/kitex_gen/comment"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
 )
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	CreateComment(ctx context.Context, Req *comment222.CreateCommentRequest, callOptions ...callopt.Option) (r *comment222.CreateCommentResponse, err error)
-	DeleteComment(ctx context.Context, Req *comment222.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment222.DeleteCommentResponse, err error)
-	CommentList(ctx context.Context, Req *comment222.CommentListRequest, callOptions ...callopt.Option) (r *comment222.CommentListResponse, err error)
+	CreateComment(ctx context.Context, Req *comment.CreateCommentRequest, callOptions ...callopt.Option) (r *comment.CreateCommentResponse, err error)
+	DeleteComment(ctx context.Context, Req *comment.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment.DeleteCommentResponse, err error)
+	CommentList(ctx context.Context, Req *comment.CommentListRequest, callOptions ...callopt.Option) (r *comment.CommentListResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -45,17 +45,17 @@ type kCommentServiceClient struct {
 	*kClient
 }
 
-func (p *kCommentServiceClient) CreateComment(ctx context.Context, Req *comment222.CreateCommentRequest, callOptions ...callopt.Option) (r *comment222.CreateCommentResponse, err error) {
+func (p *kCommentServiceClient) CreateComment(ctx context.Context, Req *comment.CreateCommentRequest, callOptions ...callopt.Option) (r *comment.CreateCommentResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CreateComment(ctx, Req)
 }
 
-func (p *kCommentServiceClient) DeleteComment(ctx context.Context, Req *comment222.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment222.DeleteCommentResponse, err error) {
+func (p *kCommentServiceClient) DeleteComment(ctx context.Context, Req *comment.DeleteCommentRequest, callOptions ...callopt.Option) (r *comment.DeleteCommentResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.DeleteComment(ctx, Req)
 }
 
-func (p *kCommentServiceClient) CommentList(ctx context.Context, Req *comment222.CommentListRequest, callOptions ...callopt.Option) (r *comment222.CommentListResponse, err error) {
+func (p *kCommentServiceClient) CommentList(ctx context.Context, Req *comment.CommentListRequest, callOptions ...callopt.Option) (r *comment.CommentListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.CommentList(ctx, Req)
 }
