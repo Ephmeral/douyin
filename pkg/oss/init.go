@@ -1,6 +1,7 @@
 package oss
 
 import (
+	"github.com/Ephmeral/douyin/pkg/constants"
 	"os"
 	"strings"
 
@@ -17,17 +18,17 @@ func Init() {
 		panic(err)
 	}
 	Path = strings.Split(dir, "/cmd")[0]
-	////打开oss的Bucket
-	//endpoint := constants.OssEndPoint
-	//accesskeyid := constants.OssAccessKeyId
-	//accessKeySecret := constants.OssAccessKeySecret
-	//bucket := constants.OssBucket
-	//client, err := oss.New(endpoint, accesskeyid, accessKeySecret)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//Bucket, err = client.Bucket(bucket)
-	//if err != nil {
-	//	panic(err)
-	//}
+	//打开oss的Bucket
+	endpoint := constants.OssEndPoint
+	accesskeyid := constants.OssAccessKeyId
+	accessKeySecret := constants.OssAccessKeySecret
+	bucket := constants.OssBucket
+	client, err := oss.New(endpoint, accesskeyid, accessKeySecret)
+	if err != nil {
+		panic(err)
+	}
+	Bucket, err = client.Bucket(bucket)
+	if err != nil {
+		panic(err)
+	}
 }

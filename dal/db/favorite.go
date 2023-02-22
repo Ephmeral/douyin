@@ -93,3 +93,13 @@ func QueryFavoriteById(ctx context.Context, userId int64) ([]int64, error) {
 	}
 	return videoIds, nil
 }
+
+func QueryUserFavoritedById(ctx context.Context, userId int64) (int64, error) {
+	var count int64
+	err := DB.WithContext(ctx).Model(&FavoriteRaw{}).Where("user_id = ?", userId).Count(&count).Error
+	if err != nil {
+		klog.Error("query user favorited by id " + err.Error())
+		return 0, err
+	}
+	return count, nil
+}

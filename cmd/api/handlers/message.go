@@ -34,7 +34,7 @@ func MessageAction(c *gin.Context) {
 		SendResponse(c, errno.ParamParseErr)
 		return
 	}
-	if actionType != constants.Send {
+	if actionType != constants.SendMessage {
 		SendResponse(c, errno.ActionTypeErr)
 		return
 	}
@@ -43,11 +43,37 @@ func MessageAction(c *gin.Context) {
 		return
 	}
 
-	req := &message.MessageActionRequest{Token: token, ToUserId: toUserId, ActionType: string(int32(actionType)), Content: content}
+	req := &message.MessageActionRequest{Token: token, ToUserId: toUserId, ActionType: int32(actionType), Content: content}
 	err = rpc.MessageAction(context.Background(), req)
 	if err != nil {
 		SendResponse(c, err)
 		return
 	}
 	SendResponse(c, errno.Success)
+}
+
+// MessageChat get user message info
+func MessageChat(c *gin.Context) {
+	token := c.Query("token")
+	toUserIdStr := c.Query("to_user_id")
+	preMsgTime := c.Query("pre_msg_time")
+
+	toUserId, err := strconv.ParseInt(toUserIdStr, 10, 64)
+	if err != nil {
+		SendResponse(c, errno.ParamParseErr)
+		return
+	}
+	msgTime, err := strconv.ParseInt(preMsgTime, 10, 64)
+	if err != nil {
+		SendResponse(c, errno.ParamParseErr)
+		return
+	}
+
+	req := &message.MessageChatRequest{Token: token, ToUserId: toUserId, PreMsgTime: msgTime}
+	msgList, err := rpc.MessageChat(context.Background(), req)
+	if err != nil {
+		SendResponse(c, err)
+		return
+	}
+	SendMessageListResponse(c, errno.Success, msgList)
 }

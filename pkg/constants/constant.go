@@ -15,10 +15,10 @@ const (
 	RelationAddress = "127.0.0.1:8086"                                                           //Relation服务地址
 	MessageAddress  = "127.0.0.1:8087"                                                           //Message服务地址
 
-	OssEndPoint        = "oss-cn-shenzhen.aliyuncs.com" //Oss
-	OssAccessKeyId     = "oss"
-	OssAccessKeySecret = "oss"
-	OssBucket          = "dousheng1"
+	OssEndPoint        = "oss-cn-chengdu.aliyuncs.com" //Oss
+	OssAccessKeyId     = "LTAI5t7W552fPayRBiiwQhPM"
+	OssAccessKeySecret = "8SMNFxaGpVrTOOLbi8QvYnj3k31kBo"
+	OssBucket          = "mini-douyin"
 
 	//数据库表名
 	VideoTableName    = "video"
@@ -66,7 +66,7 @@ const (
 	MySQLMaxOpenConns    = 100       //打开数据库连接的最大数量
 	MySQLConnMaxLifetime = time.Hour //连接可复用的最大时间
 
-	RedisAddress  = "127.0.0.1:6379" // redis地址
+	RedisAddress  = "127.0.0.1:6380" // redis地址
 	RedisPassword = ""               // redis默认密码
 	RedisDB       = 1                // redis数据库
 )
