@@ -66,4 +66,7 @@ const (
 	MySQLMaxOpenConns    = 100       //打开数据库连接的最大数量
 	MySQLConnMaxLifetime = time.Hour //连接可复用的最大时间
 
+	RedisAddress  = "127.0.0.1:6379" // redis地址
+	RedisPassword = ""               // redis默认密码
+	RedisDB       = 1                // redis数据库
 )

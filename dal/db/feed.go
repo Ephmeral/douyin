@@ -1,7 +1,9 @@
 package db
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 	"time"
 )
@@ -18,4 +20,27 @@ type VideoRaw struct {
 
 func (v *VideoRaw) TableName() string {
 	return constants.VideoTableName
+}
+
+// QueryVideoByLatestTime query video info by latest create Time
+func QueryVideoByLatestTime(ctx context.Context, latestTime int64) ([]*VideoRaw, error) {
+	var videos []*VideoRaw
+	time := time.UnixMilli(latestTime)
+	err := DB.WithContext(ctx).Limit(30).Order("update_time desc").Where("update_time < ?", time).Find(&videos).Error
+	if err != nil {
+		klog.Error("QueryVideoByLatestTime find video error " + err.Error())
+		return videos, err
+	}
+	return videos, nil
+}
+
+// QueryVideoByVideoIds query video info by video ids
+func QueryVideoByVideoIds(ctx context.Context, videoIds []int64) ([]*VideoRaw, error) {
+	var videos []*VideoRaw
+	err := DB.WithContext(ctx).Where("id in (?)", videoIds).Find(&videos).Error
+	if err != nil {
+		klog.Error("QueryVideoByVideoIds error " + err.Error())
+		return nil, err
+	}
+	return videos, nil
 }
