@@ -1,0 +1,45 @@
+syntax = "proto3";
+package message;
+option go_package = "message";
+
+
+
+message BaseResp {
+  int32 status_code = 1;//状态码
+  string status_message = 2;//状态描述
+  int64 service_time = 3;//服务时间
+}
+message message_action_request {
+  string token = 1;//用户鉴权token
+  int64 to_user_id = 2;//对方用户id
+  string action_type = 3;//1-发送消息
+  string content = 4;//消息内容
+}
+message message_action_response {
+  BaseResp base_resp = 1;
+}
+
+message message_list_request {
+  string token =1;
+  int64 to_user_id = 2;
+}
+
+message message_list_response {
+  BaseResp base_resp =1;
+  repeated Message message_list = 2;
+}
+
+message Message {
+  int64 id = 1;
+  string content =2;
+  int64 create_time = 3;
+  int64 to_user_id = 4;
+  int64 from_user_id = 5;
+}
+
+service MessageService {
+  rpc MessageAction (message_action_request) returns (message_action_response) {}
+  rpc MessageList (message_list_request) returns (message_list_response) {}
+}
+
+
