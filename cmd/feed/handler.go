@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	client "github.com/Ephmeral/douyin/cmd/feed/service"
+	"github.com/Ephmeral/douyin/cmd/feed/service"
 	"github.com/Ephmeral/douyin/dal/pack"
 	feed "github.com/Ephmeral/douyin/kitex_gen/feed"
 	"github.com/Ephmeral/douyin/pkg/errno"
@@ -23,7 +23,7 @@ func (s *FeedServiceImpl) Feed(ctx context.Context, req *feed.FeedRequest) (resp
 	}
 
 	// 如果LatestTime大于0，则调用Feed服务中的服务实现处理Feed请求
-	videos, nextTime, err := client.NewFeedService(ctx).Feed(req)
+	videos, nextTime, err := service.NewFeedService(ctx).Feed(req)
 	if err != nil {
 		resp.BaseResp = pack.BuildFeedBaseResp(err)
 		return resp, nil
