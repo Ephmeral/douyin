@@ -29,7 +29,7 @@ func AddMessage(ctx context.Context, currentId int64, toUserId int64, content st
 	}
 	err := DB.WithContext(ctx).Table("message").Create(&messageRaw).Error
 	if err != nil {
-		klog.Error("create relation record fail " + err.Error())
+		klog.Error("add message record fail " + err.Error())
 		return err
 	}
 	return nil

@@ -26,7 +26,7 @@ func Init() {
 		panic(err)
 	}
 
-	err = DB.AutoMigrate(&UserRaw{}, &VideoRaw{}, &CommentRaw{})
+	err = DB.AutoMigrate(&UserRaw{}, &VideoRaw{}, &FavoriteRaw{}, &CommentRaw{}, &RelationRaw{}, &MessageRaw{})
 	if err != nil {
 		panic(err)
 	}
@@ -48,5 +48,4 @@ func Init() {
 
 	// SetConnMaxLifetime 设置了连接可复用的最大时间
 	sqlDB.SetConnMaxLifetime(constants.MySQLConnMaxLifetime)
-
 }

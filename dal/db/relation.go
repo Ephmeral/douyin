@@ -93,3 +93,23 @@ func QueryFriendById(ctx context.Context, currentId int64, toUserId int64) ([]in
 	}
 	return usersId, nil
 }
+
+// QueryFollowCount 根据用户id，查询该用户关注其他用户的总数
+func QueryFollowCount(userId int64) int64 {
+	var followCount int64
+	err := DB.Raw("select count(*) from relation where user_id = ?", userId).Find(&followCount).Error
+	if err != nil {
+		return 0
+	}
+	return followCount
+}
+
+// QueryFollowerCount 根据用户id，查询该用户粉丝的总数
+func QueryFollowerCount(userId int64) int64 {
+	var followerCount int64
+	err := DB.Raw("select count(*) from relation where to_user_id = ?", userId).Find(&followerCount).Error
+	if err != nil {
+		return 0
+	}
+	return followerCount
+}

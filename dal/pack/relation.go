@@ -19,8 +19,8 @@ func UserList(currentId int64, users []*db.UserRaw, relationMap map[int64]*db.Re
 		userList = append(userList, &relation.User{
 			Id:            int64(user.ID),
 			Name:          user.Name,
-			FollowCount:   user.FollowCount,
-			FollowerCount: user.FollowerCount,
+			FollowCount:   db.QueryFollowCount(int64(user.ID)),
+			FollowerCount: db.QueryFollowerCount(int64(user.ID)),
 			IsFollow:      isFollow,
 		})
 	}
@@ -44,8 +44,8 @@ func FriendList(currentId int64, users []*db.UserRaw, messageMap map[int64]*db.M
 		userList = append(userList, &relation.FriendUser{
 			Id:            int64(user.ID),
 			Name:          user.Name,
-			FollowCount:   user.FollowCount,
-			FollowerCount: user.FollowerCount,
+			FollowCount:   db.QueryFollowCount(int64(user.ID)),
+			FollowerCount: db.QueryFollowerCount(int64(user.ID)),
 			IsFollow:      true,
 			Message:       msg,
 			MsgType:       msgType,
