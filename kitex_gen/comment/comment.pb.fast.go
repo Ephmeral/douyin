@@ -204,6 +204,16 @@ func (x *Comment) FastRead(buf []byte, _type int8, number int32) (offset int, er
 		if err != nil {
 			goto ReadFieldError
 		}
+	case 5:
+		offset, err = x.fastReadField5(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
+	case 6:
+		offset, err = x.fastReadField6(buf, _type)
+		if err != nil {
+			goto ReadFieldError
+		}
 	default:
 		offset, err = fastpb.Skip(buf, _type, number)
 		if err != nil {
@@ -239,6 +249,16 @@ func (x *Comment) fastReadField3(buf []byte, _type int8) (offset int, err error)
 
 func (x *Comment) fastReadField4(buf []byte, _type int8) (offset int, err error) {
 	x.CreateDate, offset, err = fastpb.ReadString(buf, _type)
+	return offset, err
+}
+
+func (x *Comment) fastReadField5(buf []byte, _type int8) (offset int, err error) {
+	x.LikeCount, offset, err = fastpb.ReadInt64(buf, _type)
+	return offset, err
+}
+
+func (x *Comment) fastReadField6(buf []byte, _type int8) (offset int, err error) {
+	x.TeaseCount, offset, err = fastpb.ReadInt64(buf, _type)
 	return offset, err
 }
 
@@ -650,6 +670,8 @@ func (x *Comment) FastWrite(buf []byte) (offset int) {
 	offset += x.fastWriteField2(buf[offset:])
 	offset += x.fastWriteField3(buf[offset:])
 	offset += x.fastWriteField4(buf[offset:])
+	offset += x.fastWriteField5(buf[offset:])
+	offset += x.fastWriteField6(buf[offset:])
 	return offset
 }
 
@@ -682,6 +704,22 @@ func (x *Comment) fastWriteField4(buf []byte) (offset int) {
 		return offset
 	}
 	offset += fastpb.WriteString(buf[offset:], 4, x.CreateDate)
+	return offset
+}
+
+func (x *Comment) fastWriteField5(buf []byte) (offset int) {
+	if x.LikeCount == 0 {
+		return offset
+	}
+	offset += fastpb.WriteInt64(buf[offset:], 5, x.LikeCount)
+	return offset
+}
+
+func (x *Comment) fastWriteField6(buf []byte) (offset int) {
+	if x.TeaseCount == 0 {
+		return offset
+	}
+	offset += fastpb.WriteInt64(buf[offset:], 6, x.TeaseCount)
 	return offset
 }
 
@@ -1003,6 +1041,8 @@ func (x *Comment) Size() (n int) {
 	n += x.sizeField2()
 	n += x.sizeField3()
 	n += x.sizeField4()
+	n += x.sizeField5()
+	n += x.sizeField6()
 	return n
 }
 
@@ -1035,6 +1075,22 @@ func (x *Comment) sizeField4() (n int) {
 		return n
 	}
 	n += fastpb.SizeString(4, x.CreateDate)
+	return n
+}
+
+func (x *Comment) sizeField5() (n int) {
+	if x.LikeCount == 0 {
+		return n
+	}
+	n += fastpb.SizeInt64(5, x.LikeCount)
+	return n
+}
+
+func (x *Comment) sizeField6() (n int) {
+	if x.TeaseCount == 0 {
+		return n
+	}
+	n += fastpb.SizeInt64(6, x.TeaseCount)
 	return n
 }
 
@@ -1233,6 +1289,8 @@ var fieldIDToName_Comment = map[int32]string{
 	2: "User",
 	3: "Content",
 	4: "CreateDate",
+	5: "LikeCount",
+	6: "TeaseCount",
 }
 
 var fieldIDToName_CreateCommentRequest = map[int32]string{

@@ -27,8 +27,9 @@ message Comment {
   User user = 2;//评论用户信息
   string content = 3;//评论内容
   string create_date = 4;//评论发布日期，格式mm-dd
+  int64 like_count = 5;// 该评论点赞数量
+  int64 tease_count = 6; // 该评论diss数量
 }
-
 
 message create_comment_request {
   string token = 1;//用户鉴权token
