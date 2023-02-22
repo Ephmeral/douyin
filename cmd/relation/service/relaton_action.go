@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/chenmengangzhi29/douyin/dal/db"
-	"github.com/chenmengangzhi29/douyin/kitex_gen/relation"
-	"github.com/chenmengangzhi29/douyin/pkg/constants"
-	"github.com/chenmengangzhi29/douyin/pkg/jwt"
+	"github.com/Ephmeral/douyin/dal/db"
+	"github.com/Ephmeral/douyin/kitex_gen/relation"
+	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/Ephmeral/douyin/pkg/jwt"
 )
 
 type RelationActionService struct {
@@ -43,14 +43,14 @@ func (s *RelationActionService) RelationAction(req *relation.RelationActionReque
 	}
 
 	if req.ActionType == constants.Follow {
-		err := db.Create(s.ctx, currentId, req.ToUserId)
+		err := db.AddRelation(s.ctx, currentId, req.ToUserId)
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 	if req.ActionType == constants.UnFollow {
-		err := db.Delete(s.ctx, currentId, req.ToUserId)
+		err := db.DeleteRelation(s.ctx, currentId, req.ToUserId)
 		if err != nil {
 			return err
 		}

@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/chenmengangzhi29/douyin/dal/db"
-	"github.com/chenmengangzhi29/douyin/dal/pack"
-	"github.com/chenmengangzhi29/douyin/kitex_gen/relation"
-	"github.com/chenmengangzhi29/douyin/pkg/constants"
-	"github.com/chenmengangzhi29/douyin/pkg/jwt"
+	"github.com/Ephmeral/douyin/dal/db"
+	"github.com/Ephmeral/douyin/dal/pack"
+	"github.com/Ephmeral/douyin/kitex_gen/relation"
+	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/Ephmeral/douyin/pkg/jwt"
 )
 
 type FriendListService struct {

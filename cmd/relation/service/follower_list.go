@@ -4,11 +4,11 @@ import (
 	"context"
 	"errors"
 
-	"github.com/chenmengangzhi29/douyin/dal/db"
-	"github.com/chenmengangzhi29/douyin/dal/pack"
-	"github.com/chenmengangzhi29/douyin/kitex_gen/relation"
-	"github.com/chenmengangzhi29/douyin/pkg/constants"
-	"github.com/chenmengangzhi29/douyin/pkg/jwt"
+	"github.com/Ephmeral/douyin/dal/db"
+	"github.com/Ephmeral/douyin/dal/pack"
+	"github.com/Ephmeral/douyin/kitex_gen/relation"
+	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/Ephmeral/douyin/pkg/jwt"
 )
 
 type FollowerListService struct {
@@ -51,15 +51,9 @@ func (s *FollowerListService) FollowerList(req *relation.FollowerListRequest) ([
 		return nil, err
 	}
 
-	var relationMap map[int64]*db.RelationRaw
-	if currentId == -1 {
-		relationMap = nil
-	} else {
-		//获取当前用户与关注方的关注记录
-		relationMap, err = db.QueryRelationByIds(s.ctx, currentId, userIds)
-		if err != nil {
-			return nil, err
-		}
+	relationMap, err := db.QueryRelationByIds(s.ctx, currentId, userIds)
+	if err != nil {
+		return nil, err
 	}
 
 	userList := pack.UserList(currentId, users, relationMap)

@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/Ephmeral/douyin/dal/pack"
 
-	"github.com/chenmengangzhi29/douyin/dal/db"
-	"github.com/chenmengangzhi29/douyin/dal/pack"
-	"github.com/chenmengangzhi29/douyin/kitex_gen/relation"
-	"github.com/chenmengangzhi29/douyin/pkg/constants"
-	"github.com/chenmengangzhi29/douyin/pkg/jwt"
+	"github.com/Ephmeral/douyin/dal/db"
+	"github.com/Ephmeral/douyin/kitex_gen/relation"
+	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/Ephmeral/douyin/pkg/jwt"
 )
 
 type FollowListService struct {
@@ -33,7 +33,7 @@ func (s *FollowListService) FollowList(req *relation.FollowListRequest) ([]*rela
 		return nil, errors.New("userId not exist")
 	}
 
-	//获取目标用户关注的用户id号
+	// 获取目标用户关注的用户id号
 	relations, err := db.QueryFollowById(s.ctx, req.UserId)
 	if err != nil {
 		return nil, err
@@ -43,21 +43,15 @@ func (s *FollowListService) FollowList(req *relation.FollowListRequest) ([]*rela
 		userIds = append(userIds, relation.ToUserId)
 	}
 
-	//获取用户id号对应的用户信息
+	// 获取用户id号对应的用户信息
 	users, err := db.QueryUserByIds(s.ctx, userIds)
 	if err != nil {
 		return nil, err
 	}
 
-	var relationMap = make(map[int64]*db.RelationRaw)
-	if currentId == -1 {
-		relationMap = nil
-	} else {
-		//获取当前用户和这些用户的关注信息
-		relationMap, err = db.QueryRelationByIds(s.ctx, currentId, userIds)
-		if err != nil {
-			return nil, err
-		}
+	relationMap, err := db.QueryRelationByIds(s.ctx, currentId, userIds)
+	if err != nil {
+		return nil, err
 	}
 	userList := pack.UserList(currentId, users, relationMap)
 	return userList, nil
