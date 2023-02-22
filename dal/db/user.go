@@ -1,7 +1,9 @@
 package db
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/pkg/constants"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 )
 
@@ -17,4 +19,15 @@ type UserRaw struct {
 
 func (UserRaw) TableName() string {
 	return constants.UserTableName
+}
+
+// QueryUserByIds 根据用户id获取用户信息
+func QueryUserByIds(ctx context.Context, userIds []int64) ([]*UserRaw, error) {
+	var users []*UserRaw
+	err := DB.WithContext(ctx).Where("id in (?)", userIds).Find(&users).Error
+	if err != nil {
+		klog.Error("query user by ids fail " + err.Error())
+		return nil, err
+	}
+	return users, nil
 }
