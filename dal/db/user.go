@@ -31,3 +31,29 @@ func QueryUserByIds(ctx context.Context, userIds []int64) ([]*UserRaw, error) {
 	}
 	return users, nil
 }
+
+func QueryUserByName(ctx context.Context, name string) (*UserRaw, error) {
+	var user UserRaw
+	err := DB.WithContext(ctx).Where("name = ?", name).First(&user).Error
+	if err != nil {
+		klog.Error("query user by name fail " + err.Error())
+		return nil, err
+	}
+	return &user, nil
+}
+
+func CreateUserInfo(ctx context.Context, username string, password string) (int64, error) {
+	user := &UserRaw{
+		Name:            username,
+		Password:        password,
+		Avatar:          "",
+		BackgroundImage: "",
+		Signature:       "",
+	}
+	err := DB.WithContext(ctx).Create(&user).Error
+	if err != nil {
+		klog.Error("Create user info fail " + err.Error())
+		return 0, err
+	}
+	return int64(user.ID), nil
+}
