@@ -16,10 +16,10 @@ const (
 	MessageAddress  = "127.0.0.1:8087"                                                           // Message 服务地址
 
 	// Oss配置
-	OssEndPoint        = "oss-cn-shenzhen.aliyuncs.com"
-	OssAccessKeyId     = "oss"
-	OssAccessKeySecret = "oss"
-	OssBucket          = "douyin1"
+	OssEndPoint        = "oss-cn-hangzhou.aliyuncs.com" //Oss
+	OssAccessKeyId     = "LTAI5tPdaJF63MHsy9Y3bfHT"
+	OssAccessKeySecret = "OMnJNvm4SDY6oHi2IHnDiW9rVfCOBa"
+	OssBucket          = "xujianfei-douyin"
 
 	// 数据库表名
 	VideoTableName    = "video"

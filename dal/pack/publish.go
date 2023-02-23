@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/publish"
@@ -42,19 +43,20 @@ func PublishInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*d
 		videoList = append(videoList, &publish.Video{
 			Id: int64(video.ID),
 			Author: &publish.User{
-				Id:            int64(videoUser.ID),
-				Name:          videoUser.Name,
-				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
-				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
-				FavoriteCount: userFavorCount,
-				IsFollow:      isFollow,
+				Id:             int64(videoUser.ID),
+				Name:           videoUser.Name,
+				FollowCount:    db.QueryFollowCount(int64(videoUser.ID)),
+				FollowerCount:  db.QueryFollowerCount(int64(videoUser.ID)),
+				FavoriteCount:  userFavorCount,
+				TotalFavorited: db.QueryUserTotalFavorited(context.Background(), int64(videoUser.ID)),
+				IsFollow:       isFollow,
 			},
 			PlayUrl:       video.PlayUrl,
 			CoverUrl:      video.CoverUrl,
 			FavoriteCount: videoFavorCount,
-			CommentCount: db.QueryCommentCountByVideoId(int64(video.ID)),
-			IsFavorite:   isFavorite,
-			Title:        video.Title,
+			CommentCount:  db.QueryCommentCountByVideoId(int64(video.ID)),
+			IsFavorite:    isFavorite,
+			Title:         video.Title,
 		})
 	}
 

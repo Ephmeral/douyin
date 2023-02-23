@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/favorite"
@@ -37,12 +38,13 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 		videoList = append(videoList, &favorite.Video{
 			Id: int64(video.ID),
 			Author: &favorite.User{
-				Id:            int64(videoUser.ID),
-				Name:          videoUser.Name,
-				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
-				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
-				IsFollow:      isFollow,
-				FavoriteCount: userFavorCount,
+				Id:             int64(videoUser.ID),
+				Name:           videoUser.Name,
+				FollowCount:    db.QueryFollowCount(int64(videoUser.ID)),
+				FollowerCount:  db.QueryFollowerCount(int64(videoUser.ID)),
+				IsFollow:       isFollow,
+				TotalFavorited: db.QueryUserTotalFavorited(context.Background(), int64(videoUser.ID)),
+				FavoriteCount:  userFavorCount,
 			},
 			PlayUrl:       video.PlayUrl,
 			CoverUrl:      video.CoverUrl,

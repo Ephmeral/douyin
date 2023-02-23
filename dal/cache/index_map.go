@@ -99,7 +99,7 @@ func (i *ProxyIndexMap) GetFavorVideoIdsBySet(userId int64) (map[int64]struct{},
 
 // 获取一个视频被点赞的总数量
 func (i *ProxyIndexMap) GetVideoIsFavoritedCount(videoId int64) (int64, error) {
-	key := fmt.Sprintf("%d_%s", videoId, "favoriteVideo")
+	key := fmt.Sprintf("%d_%s", videoId, "isFavoritedBy")
 	cnt, err := rdb.SCard(ctx, key).Result()
 	if err != nil {
 		return 0, err

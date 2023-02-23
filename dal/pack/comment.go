@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/comment"
@@ -23,7 +24,7 @@ func CommentInfo(commentRaw *db.CommentRaw, user *db.UserRaw) *comment.Comment {
 			Avatar:          user.Avatar,
 			BackgroundImage: user.BackgroundImage,
 			Signature:       user.Signature,
-			TotalFavorited:  0,
+			TotalFavorited:  db.QueryUserTotalFavorited(context.Background(), int64(user.ID)),
 			WorkCount:       db.QueryVideoCountByUserId(int64(user.ID)),
 			FavoriteCount:   userFavorCount,
 		},
