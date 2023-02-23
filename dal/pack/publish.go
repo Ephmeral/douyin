@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/publish"
 )
@@ -30,6 +31,14 @@ func PublishInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*d
 				isFollow = true
 			}
 		}
+		videoFavorCount, err := cache.NewProxyIndexMap().GetVideoIsFavoritedCount(int64(video.ID))
+		if err != nil {
+			videoFavorCount = 0
+		}
+		userFavorCount, err := cache.NewProxyIndexMap().GetFavorCount(video.UserId)
+		if err != nil {
+			userFavorCount = 0
+		}
 		videoList = append(videoList, &publish.Video{
 			Id: int64(video.ID),
 			Author: &publish.User{
@@ -37,11 +46,12 @@ func PublishInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*d
 				Name:          videoUser.Name,
 				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
 				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
+				FavoriteCount: userFavorCount,
 				IsFollow:      isFollow,
 			},
-			PlayUrl:  video.PlayUrl,
-			CoverUrl: video.CoverUrl,
-			//FavoriteCount: video.FavoriteCount,
+			PlayUrl:       video.PlayUrl,
+			CoverUrl:      video.CoverUrl,
+			FavoriteCount: videoFavorCount,
 			//CommentCount:  video.CommentCount,
 			IsFavorite: isFavorite,
 			Title:      video.Title,

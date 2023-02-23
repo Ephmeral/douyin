@@ -1,12 +1,17 @@
 package pack
 
 import (
+	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/comment"
 	"github.com/Ephmeral/douyin/pkg/constants"
 )
 
 func CommentInfo(commentRaw *db.CommentRaw, user *db.UserRaw) *comment.Comment {
+	userFavorCount, err := cache.NewProxyIndexMap().GetFavorCount(int64(user.ID))
+	if err != nil {
+		userFavorCount = 0
+	}
 	return &comment.Comment{
 		Id: int64(commentRaw.ID),
 		User: &comment.User{
@@ -20,7 +25,7 @@ func CommentInfo(commentRaw *db.CommentRaw, user *db.UserRaw) *comment.Comment {
 			Signature:       user.Signature,
 			TotalFavorited:  0,
 			WorkCount:       db.QueryVideoCountByUserId(int64(user.ID)),
-			FavoriteCount:   0,
+			FavoriteCount:   userFavorCount,
 		},
 		Content:    commentRaw.Content,
 		CreateDate: commentRaw.CreatedAt.Format(constants.TimeFormat),
@@ -48,7 +53,10 @@ func CommentList(currentId int64, comments []*db.CommentRaw, userMap map[int64]*
 				isFollow = true
 			}
 		}
-
+		userFavorCount, err := cache.NewProxyIndexMap().GetFavorCount(int64(commentUser.ID))
+		if err != nil {
+			userFavorCount = 0
+		}
 		commentList = append(commentList, &comment.Comment{
 			Id: int64(commentRaw.ID),
 			User: &comment.User{
@@ -56,6 +64,7 @@ func CommentList(currentId int64, comments []*db.CommentRaw, userMap map[int64]*
 				Name:          commentUser.Name,
 				FollowCount:   db.QueryFollowCount(int64(commentUser.ID)),
 				FollowerCount: db.QueryFollowCount(int64(commentUser.ID)),
+				FavoriteCount: userFavorCount,
 				IsFollow:      isFollow,
 			},
 			Content:    commentRaw.Content,
