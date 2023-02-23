@@ -2,10 +2,11 @@ package oss
 
 import (
 	"bytes"
-	"os"
-
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/cloudwego/kitex/pkg/klog"
+	"io/ioutil"
+	"os"
+	"strconv"
 )
 
 // PublishVideoToPublic 将视频保存到本地文件夹中
@@ -62,4 +63,39 @@ func QueryOssCoverURL(objectKey string) (string, error) {
 		return "", err
 	}
 	return signedURL, nil
+}
+
+func PublishAvatarInit() error {
+	for i := 1; i <= 10; i++ {
+		avatarPath := Path + strconv.Itoa(i%10) + "-avatar.png"
+		openFile, err := os.Open(avatarPath)
+		if err != nil {
+			klog.Errorf("open avatar file fail, %v", err.Error())
+			return err
+		}
+		defer openFile.Close()
+		avatarData, err := ioutil.ReadAll(openFile)
+		if err != nil {
+			klog.Errorf("read avatar file fail, %v", err.Error())
+			return err
+		}
+
+		err = Bucket.PutObject("avatar/"+strconv.Itoa(i%10)+"-avatar.png", bytes.NewReader(avatarData))
+		if err != nil {
+			klog.Errorf("publish avatar fail, %v", err.Error())
+			return err
+		}
+	}
+	return nil
+}
+
+// GetAvatar 获取用户头像
+func GetAvatar(userId int) string {
+	avatarURL := "avatar/" + strconv.Itoa(userId%10) + "-avatar.png"
+	signedURL, err := Bucket.SignURL(avatarURL, oss.HTTPPut, 60)
+	if err != nil {
+		klog.Errorf("Query %v Cover URL fail, %v", avatarURL, err.Error())
+		return ""
+	}
+	return signedURL
 }
