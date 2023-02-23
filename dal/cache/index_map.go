@@ -34,7 +34,7 @@ func NewProxyIndexMap() *ProxyIndexMap {
 	return &proxyIndexOperation
 }
 
-// 更新点赞状态
+// UpdateFavorState 更新点赞状态
 func (i *ProxyIndexMap) UpdateFavorState(userId int64, videoId int64, state bool) error {
 	tx := rdb.TxPipeline()
 	keyUser := fmt.Sprintf("%d_%s", userId, "favoriteVideo")
@@ -50,14 +50,14 @@ func (i *ProxyIndexMap) UpdateFavorState(userId int64, videoId int64, state bool
 	return err
 }
 
-// 得到点赞状态
+// GetFavorState 得到点赞状态
 func (i *ProxyIndexMap) GetFavorState(userId int64, videoId int64) bool {
 	key := fmt.Sprintf("%d_%s", userId, "favoriteVideo")
 	state := rdb.SIsMember(ctx, key, videoId)
 	return state.Val()
 }
 
-// 获取用户的点赞总数量
+// GetFavorCount 获取用户的点赞总数量
 func (i *ProxyIndexMap) GetFavorCount(userId int64) (int64, error) {
 	key := fmt.Sprintf("%d_%s", userId, "favoriteVideo")
 	cnt, err := rdb.SCard(ctx, key).Result()
@@ -67,7 +67,7 @@ func (i *ProxyIndexMap) GetFavorCount(userId int64) (int64, error) {
 	return cnt, nil
 }
 
-// 获取一个用户所有点过赞的视频id,以切片的形式返回
+// GetFavorVideoIds 获取一个用户所有点过赞的视频id,以切片的形式返回
 func (i *ProxyIndexMap) GetFavorVideoIds(userId int64) ([]int64, error) {
 	key := fmt.Sprintf("%d_%s", userId, "favoriteVideo")
 	videoIdsStr, err := rdb.SMembers(ctx, key).Result()
@@ -84,7 +84,7 @@ func (i *ProxyIndexMap) GetFavorVideoIds(userId int64) ([]int64, error) {
 	return videoIds, err
 }
 
-// 获取一个用户所有点过赞的视频id，以哈希表的形式返回
+// GetFavorVideoIdsBySet 获取一个用户所有点过赞的视频id，以哈希表的形式返回
 func (i *ProxyIndexMap) GetFavorVideoIdsBySet(userId int64) (map[int64]struct{}, error) {
 	list, err := i.GetFavorVideoIds(userId)
 	if err != nil {
@@ -97,9 +97,9 @@ func (i *ProxyIndexMap) GetFavorVideoIdsBySet(userId int64) (map[int64]struct{},
 	return videoIdsSet, nil
 }
 
-// 获取一个视频被点赞的总数量
+// GetVideoIsFavoritedCount 获取一个视频被点赞的总数量
 func (i *ProxyIndexMap) GetVideoIsFavoritedCount(videoId int64) (int64, error) {
-	key := fmt.Sprintf("%d_%s", videoId, "favoriteVideo")
+	key := fmt.Sprintf("%d_%s", videoId, "isFavoritedBy")
 	cnt, err := rdb.SCard(ctx, key).Result()
 	if err != nil {
 		return 0, err

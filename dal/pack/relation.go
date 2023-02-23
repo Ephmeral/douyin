@@ -51,6 +51,9 @@ func FriendList(currentId int64, users []*db.UserRaw, messageMap map[int64]*db.M
 		if err != nil {
 			userFavorCount = 0
 		}
+		//userList = append(userList, &relation.FriendUser{
+		//	UserInfo(),
+		//})
 		userList = append(userList, &relation.FriendUser{
 			Id:            int64(user.ID),
 			Name:          user.Name,
