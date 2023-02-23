@@ -53,7 +53,7 @@ func DeleteComment(ctx context.Context, commentId int64) (*CommentRaw, error) {
 // QueryCommentByCommentIds 通过评论id查询一组评论信息
 func QueryCommentByCommentIds(ctx context.Context, commentIds []int64) ([]*CommentRaw, error) {
 	var comments []*CommentRaw
-	err := DB.WithContext(ctx).Table("comment").Where("id in (?)", commentIds).Find(&comments).Error
+	err := DB.WithContext(ctx).Table(constants.CommentTableName).Where("id in (?)", commentIds).Find(&comments).Error
 	if err != nil {
 		klog.Error("query comment by comment id fail " + err.Error())
 		return nil, err
@@ -64,10 +64,20 @@ func QueryCommentByCommentIds(ctx context.Context, commentIds []int64) ([]*Comme
 // QueryCommentByVideoId 通过视频id号倒序返回一组评论信息
 func QueryCommentByVideoId(ctx context.Context, videoId int64) ([]*CommentRaw, error) {
 	var comments []*CommentRaw
-	err := DB.WithContext(ctx).Table("comment").Order("updated_at desc").Where("video_id = ?", videoId).Find(&comments).Error
+	err := DB.WithContext(ctx).Table(constants.CommentTableName).Order("updated_at desc").Where("video_id = ?", videoId).Find(&comments).Error
 	if err != nil {
 		klog.Error("query comment by video id fail " + err.Error())
 		return nil, err
 	}
 	return comments, nil
+}
+
+func QueryCommentCountByVideoId(videoId int64) int64 {
+	var count int64
+	err := DB.Table(constants.CommentTableName).Where("video_id = ?", videoId).Count(&count).Error
+	if err != nil {
+		klog.Error("query comment count by videoId fail " + err.Error())
+		return 0
+	}
+	return count
 }

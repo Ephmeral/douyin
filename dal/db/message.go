@@ -38,7 +38,7 @@ func AddMessage(ctx context.Context, currentId int64, toUserId int64, content st
 // QueryMessageById 根据用户id和目标用户id，查询对应的消息记录
 func QueryMessageById(ctx context.Context, userId int64, toUserId int64) ([]*MessageRaw, error) {
 	var messages []*MessageRaw
-	err := DB.WithContext(ctx).Table("message").
+	err := DB.WithContext(ctx).Table(constants.MessageTableName).
 		Where("user_id = ? and to_user_id = ?", userId, toUserId).Find(&messages).Error
 	if err != nil {
 		klog.Error("query message by id fail " + err.Error())
@@ -50,7 +50,7 @@ func QueryMessageById(ctx context.Context, userId int64, toUserId int64) ([]*Mes
 // QueryFriendLastMessage 根据用户id和目标用户id，查询最新的消息记录
 func QueryFriendLastMessage(ctx context.Context, userId int64, toUserId int64) (*MessageRaw, error) {
 	var msg *MessageRaw
-	err := DB.WithContext(ctx).Table("message").
+	err := DB.WithContext(ctx).Table(constants.MessageTableName).
 		Where("user_id = ? and to_user_id = ? ", userId, toUserId).
 		Or("user_id = ? and to_user_id = ? ", toUserId, userId).
 		Order("create_time DESC").Find(&msg).Error

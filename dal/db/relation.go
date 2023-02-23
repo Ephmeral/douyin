@@ -42,7 +42,7 @@ func AddRelation(ctx context.Context, currentId int64, toUserId int64) error {
 		UserId:   currentId,
 		ToUserId: toUserId,
 	}
-	err := DB.WithContext(ctx).Table("relation").Create(&relationRaw).Error
+	err := DB.WithContext(ctx).Table(constants.RelationTableName).Create(&relationRaw).Error
 	if err != nil {
 		klog.Error("create relation record fail " + err.Error())
 		return err
@@ -53,7 +53,7 @@ func AddRelation(ctx context.Context, currentId int64, toUserId int64) error {
 // DeleteRelation 删除由currentId到toUserId的关注记录
 func DeleteRelation(ctx context.Context, currentId int64, toUserId int64) error {
 	var relationRaw *RelationRaw
-	err := DB.WithContext(ctx).Table("relation").Where("user_id = ? AND to_user_id = ?", currentId, toUserId).Delete(&relationRaw).Error
+	err := DB.WithContext(ctx).Table(constants.RelationTableName).Where("user_id = ? AND to_user_id = ?", currentId, toUserId).Delete(&relationRaw).Error
 	if err != nil {
 		klog.Error("delete relation record fail " + err.Error())
 		return err
@@ -64,7 +64,7 @@ func DeleteRelation(ctx context.Context, currentId int64, toUserId int64) error 
 // QueryFollowById 通过用户id，查询该用户关注的用户，返回两者之间的关注记录
 func QueryFollowById(ctx context.Context, userId int64) ([]*RelationRaw, error) {
 	var relations []*RelationRaw
-	err := DB.WithContext(ctx).Table("relation").Where("user_id = ?", userId).Find(&relations).Error
+	err := DB.WithContext(ctx).Table(constants.RelationTableName).Where("user_id = ?", userId).Find(&relations).Error
 	if err != nil {
 		klog.Error("query follow by id fail " + err.Error())
 		return nil, err
@@ -75,7 +75,7 @@ func QueryFollowById(ctx context.Context, userId int64) ([]*RelationRaw, error) 
 // QueryFollowerById 通过用户id，查询该用户的粉丝，返回两者之间的关注记录
 func QueryFollowerById(ctx context.Context, userId int64) ([]*RelationRaw, error) {
 	var relations []*RelationRaw
-	err := DB.WithContext(ctx).Table("relation").Where("to_user_id = ?", userId).Find(&relations).Error
+	err := DB.WithContext(ctx).Table(constants.RelationTableName).Where("to_user_id = ?", userId).Find(&relations).Error
 	if err != nil {
 		klog.Error("query follower by id fail " + err.Error())
 		return nil, err

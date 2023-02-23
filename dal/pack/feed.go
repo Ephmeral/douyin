@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"github.com/Ephmeral/douyin/dal/cache"
 	"time"
 
 	"github.com/Ephmeral/douyin/dal/db"
@@ -16,14 +17,12 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]
 		if !ok {
 			videoUser = &db.UserRaw{
 				Name: "未知用户",
-				//FollowCount:   0,
-				//FollowerCount: 0,
 			}
 			videoUser.ID = 0
 		}
 
-		var isFavorite bool = false
-		var isFollow bool = false
+		var isFavorite = false
+		var isFollow = false
 
 		if currentId != -1 {
 			_, ok := videoIdsSet[int64(video.ID)]
@@ -35,6 +34,14 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]
 				isFollow = true
 			}
 		}
+		userFavorCount, err := cache.NewProxyIndexMap().GetFavorCount(video.UserId)
+		if err != nil {
+			userFavorCount = 0
+		}
+		videoFavorCount, err := cache.NewProxyIndexMap().GetVideoIsFavoritedCount(int64(video.ID))
+		if err != nil {
+			videoFavorCount = 0
+		}
 		videoList = append(videoList, &feed.Video{
 			Id: int64(video.ID),
 			Author: &feed.User{
@@ -43,10 +50,11 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]
 				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
 				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
 				IsFollow:      isFollow,
+				FavoriteCount: userFavorCount,
 			},
-			PlayUrl:  video.PlayUrl,
-			CoverUrl: video.CoverUrl,
-			//FavoriteCount: video.FavoriteCount,
+			PlayUrl:       video.PlayUrl,
+			CoverUrl:      video.CoverUrl,
+			FavoriteCount: videoFavorCount,
 			//CommentCount:  video.CommentCount,
 			IsFavorite: isFavorite,
 			Title:      video.Title,

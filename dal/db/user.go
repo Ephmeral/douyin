@@ -6,7 +6,6 @@ import (
 	"github.com/Ephmeral/douyin/pkg/oss"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
-	"math/rand"
 )
 
 // UserRaw User Gorm Data structures
@@ -48,7 +47,7 @@ func CreateUserInfo(ctx context.Context, username string, password string) (int6
 	user := &UserRaw{
 		Name:            username,
 		Password:        password,
-		Avatar:          oss.GetAvatar(rand.Intn(10)),
+		Avatar:          oss.GetAvatar(),
 		BackgroundImage: "",
 		Signature:       "",
 	}

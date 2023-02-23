@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/favorite"
 )
@@ -17,7 +18,6 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 			videoUser.ID = 0
 		}
 
-		var isFavorite = true
 		var isFollow = false
 
 		if currentId != -1 {
@@ -25,6 +25,14 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 			if ok {
 				isFollow = true
 			}
+		}
+		videoFavorCount, err := cache.NewProxyIndexMap().GetVideoIsFavoritedCount(int64(video.ID))
+		if err != nil {
+			videoFavorCount = 0
+		}
+		userFavorCount, err := cache.NewProxyIndexMap().GetFavorCount(video.UserId)
+		if err != nil {
+			userFavorCount = 0
 		}
 		videoList = append(videoList, &favorite.Video{
 			Id: int64(video.ID),
@@ -34,13 +42,13 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
 				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
 				IsFollow:      isFollow,
+				FavoriteCount: userFavorCount,
 			},
-			PlayUrl:  video.PlayUrl,
-			CoverUrl: video.CoverUrl,
-			//FavoriteCount: video.FavoriteCount,
-			//CommentCount:  video.CommentCount,
-			IsFavorite: isFavorite,
-			Title:      video.Title,
+			PlayUrl:       video.PlayUrl,
+			CoverUrl:      video.CoverUrl,
+			FavoriteCount: videoFavorCount,
+			IsFavorite:    true,
+			Title:         video.Title,
 		})
 	}
 
