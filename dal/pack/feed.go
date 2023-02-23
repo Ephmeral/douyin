@@ -55,9 +55,9 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]
 			PlayUrl:       video.PlayUrl,
 			CoverUrl:      video.CoverUrl,
 			FavoriteCount: videoFavorCount,
-			//CommentCount:  video.CommentCount,
-			IsFavorite: isFavorite,
-			Title:      video.Title,
+			CommentCount:  db.QueryCommentCountByVideoId(int64(video.ID)),
+			IsFavorite:    isFavorite,
+			Title:         video.Title,
 		})
 	}
 
