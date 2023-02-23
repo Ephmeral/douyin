@@ -74,7 +74,7 @@ func QueryCommentByVideoId(ctx context.Context, videoId int64) ([]*CommentRaw, e
 
 func QueryCommentCountByVideoId(videoId int64) int64 {
 	var count int64
-	err := DB.Model(&VideoRaw{}).Where("video_id = ?", videoId).Count(&count).Error
+	err := DB.Model(&CommentRaw{}).Where("video_id = ?", videoId).Count(&count).Error
 	if err != nil {
 		klog.Error("query comment count by videoId fail " + err.Error())
 		return 0

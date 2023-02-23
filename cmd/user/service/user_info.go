@@ -53,10 +53,8 @@ func (s *UserInfoService) UserInfo(request *User.UserInfoRequest) (*User.User, e
 	followerCount := db.QueryFollowerCount(request.UserId)
 	workCount := db.QueryVideoCountByUserId(request.UserId)
 
-	totalFavorited, err := db.QueryUserFavoritedById(s.ctx, request.UserId)
-	if err != nil {
-		return nil, err
-	}
+	totalFavorited := db.QueryUserTotalFavorited(s.ctx, request.UserId)
+
 	video, err := db.QueryVideoByUserId(s.ctx, request.UserId)
 	var favoriteCount int64 = 0
 	for _, v := range video {
