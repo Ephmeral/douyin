@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Ephmeral/douyin/pkg/oss"
 	"net"
 
 	"github.com/Ephmeral/douyin/dal"
@@ -21,6 +22,7 @@ var Jwt *jwt.JWT
 func Init() {
 	dal.Init()
 	Jwt = jwt.NewJWT([]byte(constants.SecretKey))
+	oss.Init()
 }
 
 func main() {

@@ -49,22 +49,15 @@ func (s *UserInfoService) UserInfo(request *User.UserInfoRequest) (*User.User, e
 		isFollow = true
 	}
 
-	follow, err := db.QueryFollowById(s.ctx, request.UserId)
-	if err != nil {
-		return nil, err
-	}
-
-	follower, err := db.QueryFollowerById(s.ctx, request.UserId)
-	if err != nil {
-		return nil, err
-	}
+	followCount := db.QueryFollowCount(request.UserId)
+	followerCount := db.QueryFollowerCount(request.UserId)
 
 	totalFavorited, err := db.QueryUserFavoritedById(s.ctx, request.UserId)
 	if err != nil {
 		return nil, err
 	}
 	video, err := db.QueryVideoByUserId(s.ctx, request.UserId)
-	var favoriteCount int64
+	var favoriteCount int64 = 0
 	for _, v := range video {
 		count, err := db.QueryUserFavoritedById(s.ctx, int64(v.ID))
 		if err != nil {
@@ -73,6 +66,6 @@ func (s *UserInfoService) UserInfo(request *User.UserInfoRequest) (*User.User, e
 		favoriteCount += count
 	}
 
-	userInfo := pack.UserInfo(user, isFollow, int64(len(follow)), int64(len(follower)), totalFavorited, int64(len(video)), favoriteCount)
+	userInfo := pack.UserInfo(user, isFollow, followCount, followerCount, totalFavorited, int64(len(video)), favoriteCount)
 	return userInfo, nil
 }
