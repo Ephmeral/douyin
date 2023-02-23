@@ -15,10 +15,10 @@ const (
 	RelationAddress = "127.0.0.1:8086"                                                           //Relation服务地址
 	MessageAddress  = "127.0.0.1:8087"                                                           //Message服务地址
 
-	OssEndPoint        = "oss-cn-shenzhen.aliyuncs.com" //Oss
-	OssAccessKeyId     = "oss"
-	OssAccessKeySecret = "oss"
-	OssBucket          = "douyin1"
+	OssEndPoint        = "oss-cn-chengdu.aliyuncs.com" //Oss
+	OssAccessKeyId     = "LTAI5t7W552fPayRBiiwQhPM"
+	OssAccessKeySecret = "8SMNFxaGpVrTOOLbi8QvYnj3k31kBo"
+	OssBucket          = "mini-douyin"
 
 	//数据库表名
 	VideoTableName    = "video"
