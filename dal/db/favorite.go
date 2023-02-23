@@ -52,3 +52,21 @@ func DeleteFavorite(ctx context.Context, currentId int64, videoId int64) error {
 func QueryUserFavoritedById(ctx context.Context, userId int64) (int64, error) {
 	return cache.NewProxyIndexMap().GetFavorCount(userId)
 }
+
+// QueryUserTotalFavorited 查询用户被点赞的总数量
+func QueryUserTotalFavorited(ctx context.Context, userId int64) int64 {
+	// 根据userId查询用户的发布列表
+	videoData, err := QueryVideoByUserId(ctx, userId)
+	if err != nil {
+		return 0
+	}
+	var count int64 = 0
+	for _, video := range videoData {
+		num, err := cache.NewProxyIndexMap().GetVideoIsFavoritedCount(int64(video.ID))
+		if err != nil {
+			return 0
+		}
+		count += num
+	}
+	return count
+}

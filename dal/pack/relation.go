@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/dal/cache"
 	"github.com/Ephmeral/douyin/dal/db"
 	"github.com/Ephmeral/douyin/kitex_gen/relation"
@@ -22,12 +23,14 @@ func UserList(currentId int64, users []*db.UserRaw, relationMap map[int64]*db.Re
 			userFavorCount = 0
 		}
 		userList = append(userList, &relation.User{
-			Id:            int64(user.ID),
-			Name:          user.Name,
-			FollowCount:   db.QueryFollowCount(int64(user.ID)),
-			FollowerCount: db.QueryFollowerCount(int64(user.ID)),
-			IsFollow:      isFollow,
-			FavoriteCount: userFavorCount,
+			Id:             int64(user.ID),
+			Name:           user.Name,
+			FollowCount:    db.QueryFollowCount(int64(user.ID)),
+			FollowerCount:  db.QueryFollowerCount(int64(user.ID)),
+			TotalFavorited: db.QueryUserTotalFavorited(context.Background(), int64(user.ID)),
+			WorkCount:      db.QueryVideoCountByUserId(int64(user.ID)),
+			IsFollow:       isFollow,
+			FavoriteCount:  userFavorCount,
 		})
 	}
 	return userList
@@ -56,6 +59,8 @@ func FriendList(currentId int64, users []*db.UserRaw, messageMap map[int64]*db.M
 			Name:            user.Name,
 			FollowCount:     db.QueryFollowCount(int64(user.ID)),
 			FollowerCount:   db.QueryFollowerCount(int64(user.ID)),
+			TotalFavorited:  db.QueryUserTotalFavorited(context.Background(), int64(user.ID)),
+			WorkCount:       db.QueryVideoCountByUserId(int64(user.ID)),
 			IsFollow:        true,
 			Avatar:          user.Avatar,
 			BackgroundImage: user.BackgroundImage,

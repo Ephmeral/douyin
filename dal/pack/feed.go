@@ -1,6 +1,7 @@
 package pack
 
 import (
+	"context"
 	"github.com/Ephmeral/douyin/dal/cache"
 	"time"
 
@@ -45,12 +46,14 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]
 		videoList = append(videoList, &feed.Video{
 			Id: int64(video.ID),
 			Author: &feed.User{
-				Id:            int64(videoUser.ID),
-				Name:          videoUser.Name,
-				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
-				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
-				IsFollow:      isFollow,
-				FavoriteCount: userFavorCount,
+				Id:             int64(videoUser.ID),
+				Name:           videoUser.Name,
+				FollowCount:    db.QueryFollowCount(int64(videoUser.ID)),
+				FollowerCount:  db.QueryFollowerCount(int64(videoUser.ID)),
+				IsFollow:       isFollow,
+				TotalFavorited: db.QueryUserTotalFavorited(context.Background(), int64(videoUser.ID)),
+				WorkCount:      db.QueryVideoCountByUserId(int64(videoUser.ID)),
+				FavoriteCount:  userFavorCount,
 			},
 			PlayUrl:       video.PlayUrl,
 			CoverUrl:      video.CoverUrl,
