@@ -30,7 +30,6 @@ func (s *CommentServiceImpl) CreateComment(ctx context.Context, req *comment.Cre
 	resp.BaseResp = pack.BuildCommentBaseResp(errno.Success)
 	resp.Comment = comment
 	return resp, nil
-	return
 }
 
 // DeleteComment implements the CommentServiceImpl interface.
@@ -51,7 +50,6 @@ func (s *CommentServiceImpl) DeleteComment(ctx context.Context, req *comment.Del
 	resp.BaseResp = pack.BuildCommentBaseResp(errno.Success)
 	resp.Comment = comment
 	return resp, nil
-	return
 }
 
 // CommentList implements the CommentServiceImpl interface.
@@ -72,5 +70,4 @@ func (s *CommentServiceImpl) CommentList(ctx context.Context, req *comment.Comme
 	resp.BaseResp = pack.BuildCommentBaseResp(errno.Success)
 	resp.CommentList = commentList
 	return resp, nil
-	return
 }
