@@ -17,7 +17,7 @@ type PublishListService struct {
 	ctx context.Context
 }
 
-// NewPublishService new PublishService
+// NewPublishListService new PublishService
 func NewPublishListService(ctx context.Context) *PublishListService {
 	return &PublishListService{ctx: ctx}
 }

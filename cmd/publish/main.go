@@ -6,6 +6,7 @@ import (
 	"github.com/Ephmeral/douyin/pkg/bound"
 	"github.com/Ephmeral/douyin/pkg/constants"
 	"github.com/Ephmeral/douyin/pkg/middleware"
+	"github.com/Ephmeral/douyin/pkg/oss"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/limit"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
@@ -16,6 +17,7 @@ import (
 
 func Init() {
 	dal.Init()
+	oss.Init()
 }
 func main() {
 	r, err := etcd.NewEtcdRegistry([]string{constants.EtcdAddress}) //r should not be reused.
