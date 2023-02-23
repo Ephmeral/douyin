@@ -13,14 +13,12 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 		if !ok {
 			videoUser = &db.UserRaw{
 				Name: "未知用户",
-				//FollowCount:   0,
-				//FollowerCount: 0,
 			}
 			videoUser.ID = 0
 		}
 
-		var isFavorite bool = true
-		var isFollow bool = false
+		var isFavorite = true
+		var isFollow = false
 
 		if currentId != -1 {
 			_, ok = relationMap[video.UserId]
@@ -31,11 +29,11 @@ func VideoList(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 		videoList = append(videoList, &favorite.Video{
 			Id: int64(video.ID),
 			Author: &favorite.User{
-				Id:   int64(videoUser.ID),
-				Name: videoUser.Name,
-				//FollowCount:   videoUser.FollowCount,
-				//FollowerCount: videoUser.FollowerCount,
-				IsFollow: isFollow,
+				Id:            int64(videoUser.ID),
+				Name:          videoUser.Name,
+				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
+				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
+				IsFollow:      isFollow,
 			},
 			PlayUrl:  video.PlayUrl,
 			CoverUrl: video.CoverUrl,

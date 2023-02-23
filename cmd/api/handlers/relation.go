@@ -47,7 +47,7 @@ func RelationAction(c *gin.Context) {
 	SendResponse(c, errno.Success)
 }
 
-// Followlist get user follow list info
+// FollowList get user follow list info
 func FollowList(c *gin.Context) {
 	token := c.Query("token")
 	userIdStr := c.Query("user_id")
@@ -85,4 +85,23 @@ func FollowerList(c *gin.Context) {
 		return
 	}
 	SendRelationListResponse(c, errno.Success, userList)
+}
+
+func FriendList(c *gin.Context) {
+	token := c.Query("token")
+	userIdStr := c.Query("user_id")
+
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
+	if err != nil {
+		SendResponse(c, errno.ParamParseErr)
+		return
+	}
+
+	req := &relation.FriendListRequest{Token: token, UserId: userId}
+	userList, err := rpc.FriendList(context.Background(), req)
+	if err != nil {
+		SendResponse(c, err)
+		return
+	}
+	SendFriendListResponse(c, errno.Success, userList)
 }

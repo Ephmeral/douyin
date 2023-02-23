@@ -17,6 +17,7 @@ import (
 func Init() {
 	dal.Init()
 }
+
 func main() {
 	r, err := etcd.NewEtcdRegistry([]string{constants.EtcdAddress}) //r should not be reused.
 	if err != nil {

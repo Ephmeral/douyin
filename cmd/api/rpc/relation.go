@@ -77,13 +77,13 @@ func FollowerList(ctx context.Context, req *relation.FollowerListRequest) ([]*re
 }
 
 // FriendList get user follower list info
-//func FriendList(ctx context.Context, req *relation.FriendListRequest) ([]*relation.FriendUser, error) {
-//	resp, err := relationClient.FriendList(ctx, req)
-//	if err != nil {
-//		return nil, err
-//	}
-//	if resp.BaseResp.StatusCode != 0 {
-//		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
-//	}
-//	return resp.UserList, nil
-//}
+func FriendList(ctx context.Context, req *relation.FriendListRequest) ([]*relation.FriendUser, error) {
+	resp, err := relationClient.FriendList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+	return resp.UserList, nil
+}

@@ -86,6 +86,7 @@ func main() {
 	relation.POST("/action/", handlers.RelationAction)
 	relation.GET("/follow/list/", handlers.FollowList)
 	relation.GET("/follower/list/", handlers.FollowerList)
+	relation.GET("/friend/list/", handlers.FriendList)
 
 	message := douyin.Group("/message")
 	message.POST("/action/", handlers.MessageAction)

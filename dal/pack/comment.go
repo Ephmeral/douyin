@@ -12,14 +12,14 @@ func CommentInfo(commentRaw *db.CommentRaw, user *db.UserRaw) *comment.Comment {
 		User: &comment.User{
 			Id:              int64(user.ID),
 			Name:            user.Name,
-			FollowCount:     0,
-			FollowerCount:   0,
+			FollowCount:     db.QueryFollowCount(int64(user.ID)),
+			FollowerCount:   db.QueryFollowerCount(int64(user.ID)),
 			IsFollow:        false,
 			Avatar:          user.Avatar,
 			BackgroundImage: user.BackgroundImage,
 			Signature:       user.Signature,
 			TotalFavorited:  0,
-			WorkCount:       0,
+			WorkCount:       db.QueryVideoCountByUserId(int64(user.ID)),
 			FavoriteCount:   0,
 		},
 		Content:    commentRaw.Content,
@@ -40,7 +40,7 @@ func CommentList(currentId int64, comments []*db.CommentRaw, userMap map[int64]*
 			commentUser.ID = 0
 		}
 
-		var isFollow bool = false
+		var isFollow = false
 
 		if currentId != -1 {
 			_, ok := relationMap[commentRaw.UserId]
@@ -54,8 +54,8 @@ func CommentList(currentId int64, comments []*db.CommentRaw, userMap map[int64]*
 			User: &comment.User{
 				Id:            int64(commentUser.ID),
 				Name:          commentUser.Name,
-				FollowCount:   0,
-				FollowerCount: 0,
+				FollowCount:   db.QueryFollowCount(int64(commentUser.ID)),
+				FollowerCount: db.QueryFollowCount(int64(commentUser.ID)),
 				IsFollow:      isFollow,
 			},
 			Content:    commentRaw.Content,

@@ -5,7 +5,7 @@ import (
 	"github.com/Ephmeral/douyin/kitex_gen/user"
 )
 
-func UserInfo(userRaw *db.UserRaw, isFollow bool, followCount int64, followerCount int64, totalFavortited int64, workCount int64, favoriteCount int64) *user.User {
+func UserInfo(userRaw *db.UserRaw, isFollow bool, followCount int64, followerCount int64, totalFavorite int64, workCount int64, favoriteCount int64) *user.User {
 	userInfo := &user.User{
 		Id:              int64(userRaw.ID),
 		Name:            userRaw.Name,
@@ -15,7 +15,7 @@ func UserInfo(userRaw *db.UserRaw, isFollow bool, followCount int64, followerCou
 		Avatar:          userRaw.Avatar,
 		BackgroundImage: userRaw.BackgroundImage,
 		Signature:       userRaw.Signature,
-		TotalFavorited:  totalFavortited,
+		TotalFavorited:  totalFavorite,
 		WorkCount:       workCount,
 		FavoriteCount:   favoriteCount,
 	}
