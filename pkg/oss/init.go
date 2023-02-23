@@ -20,10 +20,10 @@ func Init() {
 	Path = strings.Split(dir, "/cmd")[0]
 	//打开oss的Bucket
 	endpoint := constants.OssEndPoint
-	accesskeyid := constants.OssAccessKeyId
+	accessKeyId := constants.OssAccessKeyId
 	accessKeySecret := constants.OssAccessKeySecret
 	bucket := constants.OssBucket
-	client, err := oss.New(endpoint, accesskeyid, accessKeySecret)
+	client, err := oss.New(endpoint, accessKeyId, accessKeySecret)
 	if err != nil {
 		panic(err)
 	}
