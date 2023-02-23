@@ -51,6 +51,7 @@ func (s *UserInfoService) UserInfo(request *User.UserInfoRequest) (*User.User, e
 
 	followCount := db.QueryFollowCount(request.UserId)
 	followerCount := db.QueryFollowerCount(request.UserId)
+	workCount := db.QueryVideoCountByUserId(request.UserId)
 
 	totalFavorited, err := db.QueryUserFavoritedById(s.ctx, request.UserId)
 	if err != nil {
@@ -66,6 +67,6 @@ func (s *UserInfoService) UserInfo(request *User.UserInfoRequest) (*User.User, e
 		favoriteCount += count
 	}
 
-	userInfo := pack.UserInfo(user, isFollow, followCount, followerCount, totalFavorited, int64(len(video)), favoriteCount)
+	userInfo := pack.UserInfo(user, isFollow, followCount, followerCount, totalFavorited, workCount, favoriteCount)
 	return userInfo, nil
 }

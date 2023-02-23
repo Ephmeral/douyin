@@ -51,18 +51,18 @@ func FriendList(currentId int64, users []*db.UserRaw, messageMap map[int64]*db.M
 		if err != nil {
 			userFavorCount = 0
 		}
-		//userList = append(userList, &relation.FriendUser{
-		//	UserInfo(),
-		//})
 		userList = append(userList, &relation.FriendUser{
-			Id:            int64(user.ID),
-			Name:          user.Name,
-			FollowCount:   db.QueryFollowCount(int64(user.ID)),
-			FollowerCount: db.QueryFollowerCount(int64(user.ID)),
-			IsFollow:      true,
-			FavoriteCount: userFavorCount,
-			Message:       msg,
-			MsgType:       msgType,
+			Id:              int64(user.ID),
+			Name:            user.Name,
+			FollowCount:     db.QueryFollowCount(int64(user.ID)),
+			FollowerCount:   db.QueryFollowerCount(int64(user.ID)),
+			IsFollow:        true,
+			Avatar:          user.Avatar,
+			BackgroundImage: user.BackgroundImage,
+			Signature:       user.Signature,
+			FavoriteCount:   userFavorCount,
+			Message:         msg,
+			MsgType:         msgType,
 		})
 	}
 	return userList
