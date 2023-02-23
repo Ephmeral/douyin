@@ -44,3 +44,13 @@ func QueryVideoByVideoIds(ctx context.Context, videoIds []int64) ([]*VideoRaw, e
 	}
 	return videos, nil
 }
+
+func QueryVideoCountByUserId(userId int64) int64 {
+	var count int64
+	err := DB.Table(constants.VideoTableName).Where("user_id = ?", userId).Count(&count).Error
+	if err != nil {
+		klog.Error("QueryVideoCountByUserId error " + err.Error())
+		return 0
+	}
+	return count
+}

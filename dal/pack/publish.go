@@ -13,14 +13,12 @@ func PublishInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*d
 		if !ok {
 			videoUser = &db.UserRaw{
 				Name: "未知用户",
-				//FollowCount:   0,
-				//FollowerCount: 0,
 			}
 			videoUser.ID = 0
 		}
 
-		var isFavorite bool = false
-		var isFollow bool = false
+		var isFavorite = false
+		var isFollow = false
 
 		if currentId != -1 {
 			_, ok := videoIdsSet[int64(video.ID)]
@@ -35,11 +33,11 @@ func PublishInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*d
 		videoList = append(videoList, &publish.Video{
 			Id: int64(video.ID),
 			Author: &publish.User{
-				Id:   int64(videoUser.ID),
-				Name: videoUser.Name,
-				//FollowCount:   videoUser.FollowCount,
-				//FollowerCount: videoUser.FollowerCount,
-				IsFollow: isFollow,
+				Id:            int64(videoUser.ID),
+				Name:          videoUser.Name,
+				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
+				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
+				IsFollow:      isFollow,
 			},
 			PlayUrl:  video.PlayUrl,
 			CoverUrl: video.CoverUrl,
