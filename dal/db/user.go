@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/Ephmeral/douyin/pkg/constants"
 	"github.com/Ephmeral/douyin/pkg/oss"
+	"github.com/Ephmeral/douyin/pkg/sign"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 )
@@ -48,8 +49,8 @@ func CreateUserInfo(ctx context.Context, username string, password string) (int6
 		Name:            username,
 		Password:        password,
 		Avatar:          oss.GetAvatar(),
-		BackgroundImage: "",
-		Signature:       "",
+		BackgroundImage: oss.GetBackground(),
+		Signature:       sign.RandomSignature(),
 	}
 	err := DB.WithContext(ctx).Create(&user).Error
 	if err != nil {
