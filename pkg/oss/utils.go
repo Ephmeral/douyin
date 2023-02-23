@@ -2,9 +2,11 @@ package oss
 
 import (
 	"bytes"
+	"github.com/Ephmeral/douyin/pkg/constants"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strconv"
 )
@@ -67,7 +69,7 @@ func QueryOssCoverURL(objectKey string) (string, error) {
 
 func PublishAvatarInit() error {
 	for i := 1; i <= 10; i++ {
-		avatarPath := Path + strconv.Itoa(i%10) + "-avatar.png"
+		avatarPath := Path + "/public/" + strconv.Itoa(i%10) + "-avatar.png"
 		openFile, err := os.Open(avatarPath)
 		if err != nil {
 			klog.Errorf("open avatar file fail, %v", err.Error())
@@ -90,12 +92,7 @@ func PublishAvatarInit() error {
 }
 
 // GetAvatar 获取用户头像
-func GetAvatar(userId int) string {
-	avatarURL := "avatar/" + strconv.Itoa(userId%10) + "-avatar.png"
-	signedURL, err := Bucket.SignURL(avatarURL, oss.HTTPPut, 60)
-	if err != nil {
-		klog.Errorf("Query %v Cover URL fail, %v", avatarURL, err.Error())
-		return ""
-	}
-	return signedURL
+func GetAvatar() string {
+	avatarURL := constants.OssBucket + "." + constants.OssEndPoint + "/avatar/" + strconv.Itoa(rand.Intn(10)) + "-avatar.png"
+	return avatarURL
 }
