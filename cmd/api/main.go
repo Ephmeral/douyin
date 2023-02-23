@@ -89,6 +89,7 @@ func main() {
 
 	message := douyin.Group("/message")
 	message.POST("/action/", handlers.MessageAction)
+	message.GET("/chat/", handlers.MessageChat)
 
 	if err := http.ListenAndServe(constants.ApiAddress, r); err != nil {
 		klog.Fatal(err)

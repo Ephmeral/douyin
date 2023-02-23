@@ -51,3 +51,15 @@ func MessageAction(ctx context.Context, req *message.MessageActionRequest) error
 	}
 	return nil
 }
+
+// MessageChat implement send and receive message
+func MessageChat(ctx context.Context, req *message.MessageChatRequest) ([]*message.Message, error) {
+	resp, err := messageClient.MessageChat(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.BaseResp.StatusCode != 0 {
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMessage)
+	}
+	return resp.MessageList, nil
+}

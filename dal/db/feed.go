@@ -22,6 +22,7 @@ func (v *VideoRaw) TableName() string {
 	return constants.VideoTableName
 }
 
+// QueryVideoByLatestTime query video info by latest create Time
 func QueryVideoByLatestTime(ctx context.Context, latestTime int64) ([]*VideoRaw, error) {
 	var videos []*VideoRaw
 	time := time.UnixMilli(latestTime)
@@ -33,6 +34,7 @@ func QueryVideoByLatestTime(ctx context.Context, latestTime int64) ([]*VideoRaw,
 	return videos, nil
 }
 
+// QueryVideoByVideoIds query video info by video ids
 func QueryVideoByVideoIds(ctx context.Context, videoIds []int64) ([]*VideoRaw, error) {
 	var videos []*VideoRaw
 	err := DB.WithContext(ctx).Where("id in (?)", videoIds).Find(&videos).Error

@@ -8,7 +8,7 @@ import (
 )
 
 // VideoInfo pack video list info
-func VideoInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.UserRaw, favoriteMap map[int64]*db.FavoriteRaw, relationMap map[int64]*db.RelationRaw) ([]*feed.Video, int64) {
+func VideoInfo(currentId int64, videoData []*db.VideoRaw, videoIdsSet map[int64]struct{}, userMap map[int64]*db.UserRaw, relationMap map[int64]*db.RelationRaw) ([]*feed.Video, int64) {
 	videoList := make([]*feed.Video, 0)
 	var nextTime int64
 	for _, video := range videoData {
@@ -16,15 +16,17 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 		if !ok {
 			videoUser = &db.UserRaw{
 				Name: "未知用户",
+				//FollowCount:   0,
+				//FollowerCount: 0,
 			}
 			videoUser.ID = 0
 		}
 
-		var isFavorite = false
-		var isFollow = false
+		var isFavorite bool = false
+		var isFollow bool = false
 
 		if currentId != -1 {
-			_, ok := favoriteMap[int64(video.ID)]
+			_, ok := videoIdsSet[int64(video.ID)]
 			if ok {
 				isFavorite = true
 			}
@@ -36,18 +38,18 @@ func VideoInfo(currentId int64, videoData []*db.VideoRaw, userMap map[int64]*db.
 		videoList = append(videoList, &feed.Video{
 			Id: int64(video.ID),
 			Author: &feed.User{
-				Id:            int64(videoUser.ID),
-				Name:          videoUser.Name,
-				FollowCount:   db.QueryFollowCount(int64(videoUser.ID)),
-				FollowerCount: db.QueryFollowerCount(int64(videoUser.ID)),
-				IsFollow:      isFollow,
+				Id:   int64(videoUser.ID),
+				Name: videoUser.Name,
+				//FollowCount:   videoUser.FollowCount,
+				//FollowerCount: videoUser.FollowerCount,
+				IsFollow: isFollow,
 			},
-			PlayUrl:       video.PlayUrl,
-			CoverUrl:      video.CoverUrl,
-			FavoriteCount: 0, // TODO
-			CommentCount:  0, // TODO
-			IsFavorite:    isFavorite,
-			Title:         video.Title,
+			PlayUrl:  video.PlayUrl,
+			CoverUrl: video.CoverUrl,
+			//FavoriteCount: video.FavoriteCount,
+			//CommentCount:  video.CommentCount,
+			IsFavorite: isFavorite,
+			Title:      video.Title,
 		})
 	}
 
