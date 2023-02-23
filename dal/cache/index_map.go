@@ -51,6 +51,16 @@ func (i *ProxyIndexMap) GetFavorState(userId int64, videoId int64) bool {
 	return state.Val()
 }
 
+// 获取用户的点赞总数量
+func (i *ProxyIndexMap) GetFavorCount(userId int64) (int64, error) {
+	key := fmt.Sprintf("%d_%s", userId, "favoriteVideo")
+	cnt, err := rdb.SCard(ctx, key).Result()
+	if err != nil {
+		return 0, err
+	}
+	return cnt, nil
+}
+
 // 获取一个用户所有点过赞的视频id,以切片的形式返回
 func (i *ProxyIndexMap) GetFavorVideoIds(userId int64) ([]int64, error) {
 	key := fmt.Sprintf("%d_%s", userId, "favoriteVideo")

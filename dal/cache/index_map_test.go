@@ -16,4 +16,6 @@ func TestProxyIndexMap_UpdateFavorState(t *testing.T) {
 		panic(err)
 	}
 	fmt.Println("用户2喜欢的视频列表为：", list)
+	cnt, err := NewProxyIndexMap().GetFavorCount(2)
+	fmt.Println("用户2喜欢的视频数量为=", cnt)
 }
