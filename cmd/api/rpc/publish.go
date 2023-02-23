@@ -27,7 +27,7 @@ func initPublishRpc() {
 		constants.PublishServiceName,
 		client.WithInstanceMW(middleware.ClientMiddleware),
 		client.WithMuxConnection(1),
-		client.WithRPCTimeout(10*time.Second),
+		client.WithRPCTimeout(20*time.Second),
 		client.WithConnectTimeout(10000*time.Millisecond),
 		client.WithFailureRetry(retry.NewFailurePolicy()),
 		client.WithSuite(trace.NewDefaultClientSuite()),
