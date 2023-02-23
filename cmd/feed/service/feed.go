@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/Ephmeral/douyin/dal/cache"
 	"sync"
 
 	"github.com/Ephmeral/douyin/dal/db"
@@ -52,25 +53,15 @@ func (s *FeedService) Feed(req *feed.FeedRequest) ([]*feed.Video, int64, error) 
 		userMap[int64(user.ID)] = user
 	}
 
-	var favoriteMap map[int64]*db.FavoriteRaw
 	var relationMap map[int64]*db.RelationRaw
 	// 如果用户未登录
 	if currentId == -1 {
-		favoriteMap = nil
 		relationMap = nil
 	} else {
 		var wg sync.WaitGroup
-		wg.Add(2)
-		var favoriteErr, relationErr error
-		//获取点赞信息
-		go func() {
-			defer wg.Done()
-			favoriteMap, err = db.QueryFavoriteByIds(s.ctx, currentId, videoIds)
-			if err != nil {
-				favoriteErr = err
-				return
-			}
-		}()
+		wg.Add(1)
+		var relationErr error
+
 		//获取关注信息
 		go func() {
 			defer wg.Done()
@@ -81,15 +72,22 @@ func (s *FeedService) Feed(req *feed.FeedRequest) ([]*feed.Video, int64, error) 
 			}
 		}()
 		wg.Wait()
-		if favoriteErr != nil {
-			return nil, 0, favoriteErr
-		}
 		if relationErr != nil {
 			return nil, 0, relationErr
 		}
 
 	}
-	// 打包视频信息
-	videos, nextTime := pack.VideoInfo(currentId, videoData, userMap, favoriteMap, relationMap)
+	// 从redis中查找当前用户所有点赞的视频集合
+	var videoIdsSet map[int64]struct{}
+	if currentId == -1 {
+		//当前用户未登录
+		videoIdsSet = make(map[int64]struct{}, 0)
+	} else {
+		videoIdsSet, err = cache.NewProxyIndexMap().GetFavorVideoIdsBySet(currentId)
+		if err != nil {
+			return nil, 0, err
+		}
+	}
+	videos, nextTime := pack.VideoInfo(currentId, videoData, videoIdsSet, userMap, relationMap)
 	return videos, nextTime, nil
 }
