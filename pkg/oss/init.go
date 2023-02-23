@@ -37,4 +37,9 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+	// 上传默认背景
+	err = PublishBackgroundInit()
+	if err != nil {
+		panic(err)
+	}
 }

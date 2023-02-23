@@ -69,7 +69,7 @@ func QueryOssCoverURL(objectKey string) (string, error) {
 
 func PublishAvatarInit() error {
 	for i := 1; i <= 10; i++ {
-		avatarPath := Path + "/public/" + strconv.Itoa(i%10) + "-avatar.png"
+		avatarPath := Path + "/public/avatar/" + strconv.Itoa(i%10) + "-avatar.png"
 		openFile, err := os.Open(avatarPath)
 		if err != nil {
 			klog.Errorf("open avatar file fail, %v", err.Error())
@@ -91,8 +91,38 @@ func PublishAvatarInit() error {
 	return nil
 }
 
+func PublishBackgroundInit() error {
+	for i := 1; i <= 10; i++ {
+		avatarPath := Path + "/public/background/" + strconv.Itoa(i%10) + "-background.jpg"
+		openFile, err := os.Open(avatarPath)
+		if err != nil {
+			klog.Errorf("open background file fail, %v", err.Error())
+			return err
+		}
+		defer openFile.Close()
+		avatarData, err := ioutil.ReadAll(openFile)
+		if err != nil {
+			klog.Errorf("read background file fail, %v", err.Error())
+			return err
+		}
+
+		err = Bucket.PutObject("background/"+strconv.Itoa(i%10)+"-background.jpg", bytes.NewReader(avatarData))
+		if err != nil {
+			klog.Errorf("publish background fail, %v", err.Error())
+			return err
+		}
+	}
+	return nil
+}
+
 // GetAvatar 获取用户头像
 func GetAvatar() string {
-	avatarURL := constants.OssBucket + "." + constants.OssEndPoint + "/avatar/" + strconv.Itoa(rand.Intn(10)) + "-avatar.png"
+	avatarURL := "https://" + constants.OssBucket + "." + constants.OssEndPoint + "/avatar/" + strconv.Itoa(rand.Intn(10)) + "-avatar.png"
+	return avatarURL
+}
+
+// GetBackground 获取用户头像
+func GetBackground() string {
+	avatarURL := "https://" + constants.OssBucket + "." + constants.OssEndPoint + "/background/" + strconv.Itoa(rand.Intn(10)) + "-background.jpg"
 	return avatarURL
 }
