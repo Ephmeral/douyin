@@ -15,7 +15,7 @@ type RelationRaw struct {
 }
 
 func (RelationRaw) TableName() string {
-	return constants.ReltaionTableName
+	return constants.RelationTableName
 }
 
 // QueryRelationByIds 根据当前用户id和目标用户id获取关注信息
